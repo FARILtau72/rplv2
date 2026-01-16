@@ -1,1154 +1,1487 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RPL NASA</title>
     <!-- Favicon: replace these files with your own in projeclt root or adjust paths -->
-    <link rel="icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="logo_rpl.png">
-    <link rel="apple-touch-icon" href="logo_rpl.png"> 
+    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="logo_rpl.png" />
+    <link rel="apple-touch-icon" href="logo_rpl.png" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,807;1,807&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,807;1,807&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            box-sizing: border-box;
-        }
-        
-        .pixel-font {
-            font-family: 'Source Code Pro', monospace;
-        }
-        
-        .pixel-bg {
-            background-image: 
-                radial-gradient(circle at 25% 25%, #00ff00 2px, transparent 2px),
-                radial-gradient(circle at 75% 75%, #0080ff 2px, transparent 2px);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-        }
-        
-        .pixel-button {
-            background: linear-gradient(45deg, #111827 0%, #0f172a 100%);
-            color: #ffffff;
-            border: 4px solid #000;
-            box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0,0,0,0.25);
-            transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
+      body {
+        box-sizing: border-box;
+      }
 
-        .pixel-button:hover {
-            transform: translate(2px, 2px);
-            filter: brightness(1.05);
-            box-shadow: 2px 2px 0px #000, 4px 4px 0px rgba(0,0,0,0.25);
-        }
+      .pixel-font {
+        font-family: "Source Code Pro", monospace;
+      }
 
-        .pixel-button:active {
-            transform: translate(4px, 4px);
-            box-shadow: none;
-        }
+      .pixel-bg {
+        background-image: radial-gradient(
+            circle at 25% 25%,
+            #00ff00 2px,
+            transparent 2px
+          ),
+          radial-gradient(circle at 75% 75%, #0080ff 2px, transparent 2px);
+        background-size: 20px 20px;
+        background-position: 0 0, 10px 10px;
+      }
 
-        /* Harmonious color variants */
-        .pixel-button-blue {
-            background: linear-gradient(45deg, #3b82f6 0%, #1e40af 100%);
-        }
+      .pixel-button {
+        background: linear-gradient(45deg, #111827 0%, #0f172a 100%);
+        color: #ffffff;
+        border: 4px solid #000;
+        box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0, 0, 0, 0.25);
+        transition: transform 0.12s ease, box-shadow 0.12s ease,
+          filter 0.12s ease;
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+      }
 
-        .pixel-button-green {
-            background: linear-gradient(45deg, #10b981 0%, #047857 100%);
-        }
+      .pixel-button:hover {
+        transform: translate(2px, 2px);
+        filter: brightness(1.05);
+        box-shadow: 2px 2px 0px #000, 4px 4px 0px rgba(0, 0, 0, 0.25);
+      }
 
-        .pixel-button-purple {
-            background: linear-gradient(45deg, #8b5cf6 0%, #5b21b6 100%);
-        }
-        
-        .pixel-card {
-            background: #fff;
-            border: 4px solid #000;
-            box-shadow: 
-                4px 4px 0px #000,
-                8px 8px 0px rgba(0,0,0,0.2);
-            image-rendering: pixelated;
-        }
-        
-        .pixel-border {
-            border: 2px solid #000;
-            border-image: url("data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m0,0 L100,0 L100,100 L0,100 z' fill='none' stroke='black' stroke-width='2'/%3e%3c/svg%3e") 2;
-        }
-        
-        /* Pixelated 8-bit page transition (smooth pixel wipe like pixel book) */
-        .page-transition {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                repeating-linear-gradient(
-                    90deg,
-                    #111 0 24px,
-                    transparent 24px 48px
-                );
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateX(-100%);
-            transition: none;
-            background-size: 48px 48px;
-            background-repeat: repeat-x;
-        }
-        
-        .page-transition {
-            perspective: 1200px;
-            transform-style: preserve-3d;
-        }
+      .pixel-button:active {
+        transform: translate(4px, 4px);
+        box-shadow: none;
+      }
 
-        .page-transition.active {
-            opacity: 1;
-            animation: pixelFlip3D 0.8s cubic-bezier(0.22, 0.9, 0.33, 0.99) forwards;
-        }
+      /* Harmonious color variants */
+      .pixel-button-blue {
+        background: linear-gradient(45deg, #3b82f6 0%, #1e40af 100%);
+      }
 
-        /* 3D pixel-like flip: rotates a tiled layer in 3D while sweeping across the screen */
-        .page-transition::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(14,165,233,0.85));
-            background-size: cover;
-            transform-origin: left center;
-            transform: rotateY(-80deg) translateZ(-120px) translateX(-50%);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6) inset;
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.6));
-            image-rendering: pixelated;
-        }
+      .pixel-button-green {
+        background: linear-gradient(45deg, #10b981 0%, #047857 100%);
+      }
 
-        .page-transition.active::before {
-            animation: tileFlip 0.8s cubic-bezier(0.22, 0.9, 0.33, 0.99) forwards;
-        }
+      .pixel-button-purple {
+        background: linear-gradient(45deg, #8b5cf6 0%, #5b21b6 100%);
+      }
 
-        @keyframes tileFlip {
-            0% {
-                transform: rotateY(-88deg) translateZ(-160px) translateX(-50%);
-                opacity: 1;
-            }
-            40% {
-                transform: rotateY(-20deg) translateZ(-40px) translateX(10%);
-                opacity: 1;
-            }
-            70% {
-                transform: rotateY(10deg) translateZ(20px) translateX(60%);
-                opacity: 1;
-            }
-            100% {
-                transform: rotateY(88deg) translateZ(160px) translateX(150%);
-                opacity: 0;
-            }
-        }
+      .pixel-card {
+        background: #fff;
+        border: 4px solid #000;
+        box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0, 0, 0, 0.2);
+        image-rendering: pixelated;
+      }
 
-        @keyframes pixelFlip3D {
-            0% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
-        
-        .page {
-            display: none;
-            min-height: 100vh;
-        }
-        
-        .page.active {
-            display: block;
-        }
-        
-        .pixel-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .pixel-photo {
-            aspect-ratio: 16/9;
-            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
-            border: 4px solid #000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            image-rendering: pixelated;
-            filter: contrast(1.2) saturate(0.8);
-            position: relative;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0,0,0,0.2);
-        }
+      .pixel-border {
+        border: 2px solid #000;
+        border-image: url("data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m0,0 L100,0 L100,100 L0,100 z' fill='none' stroke='black' stroke-width='2'/%3e%3c/svg%3e")
+          2;
+      }
 
-        /* Use an <img> inside .pixel-photo so browsers can lazy-load efficiently */
-        .pixel-photo img.gallery-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: pixelated;
-            transition: transform 0.35s cubic-bezier(.2,.8,.2,1), opacity 0.35s cubic-bezier(.2,.8,.2,1);
-            opacity: 0;
-            transform: scale(1.02);
-        }
+      /* Pixelated 8-bit page transition (smooth pixel wipe like pixel book) */
+      .page-transition {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(
+          90deg,
+          #111 0 24px,
+          transparent 24px 48px
+        );
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-100%);
+        transition: none;
+        background-size: 48px 48px;
+        background-repeat: repeat-x;
+      }
 
-        .pixel-photo .photo-placeholder {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: rgba(0,0,0,0.15);
-            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
-        }
+      .page-transition {
+        perspective: 1200px;
+        transform-style: preserve-3d;
+      }
 
-        /* when image has loaded */
-        .pixel-photo img.gallery-img.loaded {
-            opacity: 1;
-            transform: scale(1);
-        }
+      .page-transition.active {
+        opacity: 1;
+        animation: pixelFlip3D 0.8s cubic-bezier(0.22, 0.9, 0.33, 0.99) forwards;
+      }
 
-        /* global loader overlay used during transitions */
-        #global-loader {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255,255,255,0.6);
-            z-index: 11000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.22s ease;
-        }
+      /* 3D pixel-like flip: rotates a tiled layer in 3D while sweeping across the screen */
+      .page-transition::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(15, 23, 42, 0.95),
+          rgba(14, 165, 233, 0.85)
+        );
+        background-size: cover;
+        transform-origin: left center;
+        transform: rotateY(-80deg) translateZ(-120px) translateX(-50%);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6) inset;
+        filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.6));
+        image-rendering: pixelated;
+      }
 
-        #global-loader.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+      .page-transition.active::before {
+        animation: tileFlip 0.8s cubic-bezier(0.22, 0.9, 0.33, 0.99) forwards;
+      }
 
-        .spinner {
-            width: 60px;
-            height: 60px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            padding: 8px;
+      @keyframes tileFlip {
+        0% {
+          transform: rotateY(-88deg) translateZ(-160px) translateX(-50%);
+          opacity: 1;
         }
+        40% {
+          transform: rotateY(-20deg) translateZ(-40px) translateX(10%);
+          opacity: 1;
+        }
+        70% {
+          transform: rotateY(10deg) translateZ(20px) translateX(60%);
+          opacity: 1;
+        }
+        100% {
+          transform: rotateY(88deg) translateZ(160px) translateX(150%);
+          opacity: 0;
+        }
+      }
 
-        .spinner > div {
-            background: #0b1220;
-            animation: pixelBounce 0.8s ease-in-out infinite;
+      @keyframes pixelFlip3D {
+        0% {
+          opacity: 1;
         }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
 
-        .spinner > div:nth-child(1) { animation-delay: 0s; }
-        .spinner > div:nth-child(2) { animation-delay: 0.1s; }
-        .spinner > div:nth-child(3) { animation-delay: 0.2s; }
-        .spinner > div:nth-child(4) { animation-delay: 0.3s; }
-        .spinner > div:nth-child(5) { animation-delay: 0.4s; }
-        .spinner > div:nth-child(6) { animation-delay: 0.5s; }
-        .spinner > div:nth-child(7) { animation-delay: 0.6s; }
-        .spinner > div:nth-child(8) { animation-delay: 0.7s; }
-        .spinner > div:nth-child(9) { animation-delay: 0.8s; }
+      .page {
+        display: none;
+        min-height: 100vh;
+      }
 
-        @keyframes pixelBounce {
-            0%, 100% { transform: scale(0.6); opacity: 0.5; }
-            50% { transform: scale(1); opacity: 1; }
-        }
+      .page.active {
+        display: block;
+      }
 
-        /* disable pointer events during transition */
-        body.transitioning * { pointer-events: none; }
-        /* keep loader interactive */
-        body.transitioning #global-loader { pointer-events: auto; }
-        
-        .pixel-photo:hover {
-            transform: scale(1.1);
-            filter: contrast(1.5) saturate(1.2);
-            z-index: 10;
-            box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0,0,0,0.3);
-        }
-        
-        .photo-title {
-            font-size: 0.5rem;
-            text-align: center;
-            line-height: 1;
-            max-width: 100%;
-            overflow: hidden;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 0.25rem;
-            transform: translateY(100%);
-            transition: transform 0.2s ease;
-        }
-        
-        .pixel-photo:hover .photo-title {
-            transform: translateY(0);
-        }
-        
-        .photo-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .photo-modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: white;
-            border: 4px solid #000;
-            padding: 2rem;
-            max-width: 500px;
-            margin: 1rem;
-            text-align: center;
-            position: relative;
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background: #ff6b6b;
-            border: 2px solid #000;
-            color: white;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        
-        .terminal-text {
-            background: #000;
-            color: #00ff00;
-            padding: 1rem;
-            border: 4px solid #333;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            line-height: 1.4;
-        }
-        
-        .dialog-box {
-            background: #fff;
-            border: 4px solid #000;
-            padding: 1rem;
-            position: relative;
-            margin: 1rem 0;
-        }
-        
-        .dialog-box::before {
-            content: '';
-            position: absolute;
-            bottom: -12px;
-            left: 20px;
-            width: 0;
-            height: 0;
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 12px solid #000;
-        }
-        
-        .dialog-box::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 22px;
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 10px solid #fff;
-        }
-        
-        .video-list {
-            background: #1a1a1a;
-            color: #fff;
-            border: 4px solid #333;
-        }
-        
-        .video-item {
-            border-bottom: 2px solid #333;
-            padding: 0.5rem;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .video-item:hover {
-            background: #333;
-        }
-        
-        .breadcrumb {
-            background: #000;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border: 2px solid #333;
-            margin-bottom: 1rem;
-        }
+      .pixel-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
 
-        /* Language button active state */
-        .lang-active {
-            background: #000 !important;
-            color: #fff !important;
+      .pixel-photo {
+        aspect-ratio: 16/9;
+        background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+        border: 4px solid #000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        image-rendering: pixelated;
+        filter: contrast(1.2) saturate(0.8);
+        position: relative;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Use an <img> inside .pixel-photo so browsers can lazy-load efficiently */
+      .pixel-photo img.gallery-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: pixelated;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        opacity: 0;
+        transform: scale(1.02);
+      }
+
+      .pixel-photo .photo-placeholder {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: rgba(0, 0, 0, 0.15);
+        background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+      }
+
+      /* when image has loaded */
+      .pixel-photo img.gallery-img.loaded {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* global loader overlay used during transitions */
+      #global-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.6);
+        z-index: 11000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s ease;
+      }
+
+      #global-loader.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .spinner {
+        width: 60px;
+        height: 60px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        padding: 8px;
+      }
+
+      .spinner > div {
+        background: #0b1220;
+        animation: pixelBounce 0.8s ease-in-out infinite;
+      }
+
+      .spinner > div:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .spinner > div:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .spinner > div:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      .spinner > div:nth-child(4) {
+        animation-delay: 0.3s;
+      }
+      .spinner > div:nth-child(5) {
+        animation-delay: 0.4s;
+      }
+      .spinner > div:nth-child(6) {
+        animation-delay: 0.5s;
+      }
+      .spinner > div:nth-child(7) {
+        animation-delay: 0.6s;
+      }
+      .spinner > div:nth-child(8) {
+        animation-delay: 0.7s;
+      }
+      .spinner > div:nth-child(9) {
+        animation-delay: 0.8s;
+      }
+
+      @keyframes pixelBounce {
+        0%,
+        100% {
+          transform: scale(0.6);
+          opacity: 0.5;
         }
-
-        /* Music player playlist (removed) */
-
-        .theme-toggle {
-            position: fixed;
-            right: 3rem;
-            top: 0.8rem;
-            z-index: 60;
-            background: white;
-            border: 2px solid #000;
-            padding: 6px 8px;
-            border-radius: 6px;
+        50% {
+          transform: scale(1);
+          opacity: 1;
         }
+      }
 
-        /* Dark mode styles */
-        .dark-mode {
-            background: linear-gradient(180deg, #0f172a, #001219) !important;
-            color: #e6eef8;
-        }
+      /* disable pointer events during transition */
+      body.transitioning * {
+        pointer-events: none;
+      }
+      /* keep loader interactive */
+      body.transitioning #global-loader {
+        pointer-events: auto;
+      }
 
-        .dark-mode .page {
-            color: #e6eef8;
-        }
+      .pixel-photo:hover {
+        transform: scale(1.1);
+        filter: contrast(1.5) saturate(1.2);
+        z-index: 10;
+        box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0, 0, 0, 0.3);
+      }
 
-        .dark-mode .pixel-card,
-        .dark-mode .breadcrumb,
-        .dark-mode .pixel-photo {
-            background: #071028 !important;
-            color: #e6eef8 !important;
-            border-color: #123 !important;
-        }
+      .photo-title {
+        font-size: 0.5rem;
+        text-align: center;
+        line-height: 1;
+        max-width: 100%;
+        overflow: hidden;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 0.25rem;
+        transform: translateY(100%);
+        transition: transform 0.2s ease;
+      }
 
-        .dark-mode .pixel-button {
-            filter: brightness(0.9);
-            color: #fff;
-        }
+      .pixel-photo:hover .photo-title {
+        transform: translateY(0);
+      }
 
-        .dark-mode .theme-toggle {
-            background: #0b1220;
-            color: #e6eef8;
-            border-color: #234;
-        }
+      .photo-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
 
-        /* playlist highlight (removed) */
+      .photo-modal.active {
+        display: flex;
+      }
 
-        /* Dark Mode Styles */
-        .dark-mode {
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-            color: #e2e8f0;
-        }
+      .modal-content {
+        background: white;
+        border: 4px solid #000;
+        padding: 2rem;
+        max-width: 500px;
+        margin: 1rem;
+        text-align: center;
+        position: relative;
+      }
 
-        .dark-mode h1,
-        .dark-mode h2,
-        .dark-mode h3,
-        .dark-mode p {
-            color: #ffffff !important;
-        }
+      .modal-close {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background: #ff6b6b;
+        border: 2px solid #000;
+        color: white;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
 
-        .dark-mode .pixel-bg {
-            background-image:
-                radial-gradient(circle at 25% 25%, #00ffff 2px, transparent 2px),
-                radial-gradient(circle at 75% 75%, #ff00ff 2px, transparent 2px);
-        }
+      .terminal-text {
+        background: #000;
+        color: #00ff00;
+        padding: 1rem;
+        border: 4px solid #333;
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        line-height: 1.4;
+      }
 
-        .dark-mode .pixel-card {
-            background: #2d3748;
-            border-color: #4a5568;
-        }
+      .dialog-box {
+        background: #fff;
+        border: 4px solid #000;
+        padding: 1rem;
+        position: relative;
+        margin: 1rem 0;
+      }
 
-        .dark-mode .pixel-button {
-            background: linear-gradient(45deg, #2b6cb0 0%, #2c5282 50%, #2a4365 100%);
-            border-color: #4a5568;
-            box-shadow:
-                4px 4px 0px #4a5568,
-                8px 8px 0px rgba(74, 85, 104, 0.3);
-        }
+      .dialog-box::before {
+        content: "";
+        position: absolute;
+        bottom: -12px;
+        left: 20px;
+        width: 0;
+        height: 0;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-top: 12px solid #000;
+      }
 
-        .dark-mode .pixel-button:hover {
-            box-shadow:
-                2px 2px 0px #4a5568,
-                4px 4px 0px rgba(74, 85, 104, 0.3);
-        }
+      .dialog-box::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 22px;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #fff;
+      }
 
-        .dark-mode .pixel-button:active {
-            box-shadow: none;
-        }
+      .video-list {
+        background: #1a1a1a;
+        color: #fff;
+        border: 4px solid #333;
+      }
 
-        .dark-mode .pixel-button-blue {
-            background: linear-gradient(45deg, #60a5fa 35%, #2563eb 100%);
-        }
+      .video-item {
+        border-bottom: 2px solid #333;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
 
-        .dark-mode .pixel-button-green {
-            background: linear-gradient(45deg, #34d399 35%, #059669 100%);
-        }
+      .video-item:hover {
+        background: #333;
+      }
 
-        .dark-mode .pixel-button-purple {
-            background: linear-gradient(45deg, #a78bfa 35%, #7c3aed 100%);
-        }
+      .breadcrumb {
+        background: #000;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border: 2px solid #333;
+        margin-bottom: 1rem;
+      }
 
-        .dark-mode .dialog-box {
-            background: #2d3748;
-            border-color: #4a5568;
-        }
+      /* Language button active state */
+      .lang-active {
+        background: #000 !important;
+        color: #fff !important;
+      }
 
-        .dark-mode .dialog-box::after {
-            border-top-color: #2d3748;
-        }
+      /* Music player playlist (removed) */
 
-        .dark-mode .terminal-text {
-            background: #1a202c;
-            border-color: #2d3748;
-        }
+      .theme-toggle {
+        position: fixed;
+        right: 3rem;
+        top: 0.8rem;
+        z-index: 60;
+        background: white;
+        border: 2px solid #000;
+        padding: 6px 8px;
+        border-radius: 6px;
+      }
 
-        .dark-mode .video-list {
-            background: #2d3748;
-            border-color: #4a5568;
-        }
+      /* Dark mode styles */
+      .dark-mode {
+        background: linear-gradient(180deg, #0f172a, #001219) !important;
+        color: #e6eef8;
+      }
 
-        .dark-mode .video-item:hover {
-            background: #4a5568;
-        }
+      .dark-mode .page {
+        color: #e6eef8;
+      }
 
-        .dark-mode .breadcrumb {
-            background: #1a202c;
-            border-color: #4a5568;
-        }
+      .dark-mode .pixel-card,
+      .dark-mode .breadcrumb,
+      .dark-mode .pixel-photo {
+        background: #071028 !important;
+        color: #e6eef8 !important;
+        border-color: #123 !important;
+      }
 
-        .dark-mode .photo-modal {
-            background: rgba(0,0,0,0.95);
-        }
+      .dark-mode .pixel-button {
+        filter: brightness(0.9);
+        color: #fff;
+      }
 
-        .dark-mode .modal-content {
-            background: #2d3748;
-            border-color: #4a5568;
-        }
+      .dark-mode .theme-toggle {
+        background: #0b1220;
+        color: #e6eef8;
+        border-color: #234;
+      }
 
-        .dark-mode .modal-close {
-            background: #e53e3e;
-            border-color: #4a5568;
-        }
+      /* playlist highlight (removed) */
 
-        .dark-mode #site-footer {
-            background: rgba(45, 55, 72, 0.6);
-            color: #a0aec0;
-        }
+      /* Dark Mode Styles */
+      .dark-mode {
+        background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+        color: #e2e8f0;
+      }
 
-        /* Compact sidebar control - combined theme + language toggle */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-            background: linear-gradient(45deg, #2b6cb0, #2c5282);
-            border: 4px solid #000;
-            box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0,0,0,0.3);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            transition: all 0.2s ease;
-            image-rendering: pixelated;
-        }
+      .dark-mode h1,
+      .dark-mode h2,
+      .dark-mode h3,
+      .dark-mode p {
+        color: #ffffff !important;
+      }
 
-        .theme-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0,0,0,0.4);
-        }
+      .dark-mode .pixel-bg {
+        background-image: radial-gradient(
+            circle at 25% 25%,
+            #00ffff 2px,
+            transparent 2px
+          ),
+          radial-gradient(circle at 75% 75%, #ff00ff 2px, transparent 2px);
+      }
 
-        .theme-toggle:active {
-            transform: scale(0.95);
-        }
+      .dark-mode .pixel-card {
+        background: #2d3748;
+        border-color: #4a5568;
+      }
 
-        .dark-mode .theme-toggle {
-            background: linear-gradient(45deg, #fbbf24, #f59e0b);
-        }
+      .dark-mode .pixel-button {
+        background: linear-gradient(
+          45deg,
+          #2b6cb0 0%,
+          #2c5282 50%,
+          #2a4365 100%
+        );
+        border-color: #4a5568;
+        box-shadow: 4px 4px 0px #4a5568, 8px 8px 0px rgba(74, 85, 104, 0.3);
+      }
 
-        /* Language controls - hidden by default, revealed on hover/click */
-        #top-controls {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-            pointer-events: none;
-        }
+      .dark-mode .pixel-button:hover {
+        box-shadow: 2px 2px 0px #4a5568, 4px 4px 0px rgba(74, 85, 104, 0.3);
+      }
 
-        #top-controls > div {
-            display: flex;
-            flex-direction: row;
-            gap: 8px;
-            align-items: center;
-            pointer-events: auto;
-            opacity: 0;
-            transform: translateX(70px);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
+      .dark-mode .pixel-button:active {
+        box-shadow: none;
+      }
 
-        .theme-toggle:hover ~ #top-controls > div,
-        #top-controls:hover > div,
-        #top-controls.active > div {
-            opacity: 1;
-            transform: translateX(70px);
-        }
+      .dark-mode .pixel-button-blue {
+        background: linear-gradient(45deg, #60a5fa 35%, #2563eb 100%);
+      }
 
-        #top-controls button {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 3px solid #000;
-            background: white;
-            color: #000;
-            font-weight: bold;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 3px 3px 0px #000, 6px 6px 0px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      .dark-mode .pixel-button-green {
+        background: linear-gradient(45deg, #34d399 35%, #059669 100%);
+      }
 
-        #top-controls button:hover {
-            transform: scale(1.05);
-            box-shadow: 3px 3px 0px #000, 6px 6px 0px rgba(0,0,0,0.3);
-        }
+      .dark-mode .pixel-button-purple {
+        background: linear-gradient(45deg, #a78bfa 35%, #7c3aed 100%);
+      }
 
-        #top-controls button:active {
-            transform: scale(0.95);
-            box-shadow: 1px 1px 0px #000;
-        }
+      .dark-mode .dialog-box {
+        background: #2d3748;
+        border-color: #4a5568;
+      }
 
-        .dark-mode #top-controls button {
-            background: #2d3748;
-            color: #ffffff;
-            border-color: #4a5568;
-            box-shadow: 3px 3px 0px #4a5568, 6px 6px 0px rgba(74, 85, 104, 0.3);
-        }
+      .dark-mode .dialog-box::after {
+        border-top-color: #2d3748;
+      }
 
-        .dark-mode #top-controls button:hover {
-            background: #4a5568;
-        }
+      .dark-mode .terminal-text {
+        background: #1a202c;
+        border-color: #2d3748;
+      }
 
-        /* Responsive helpers: scale buttons, gallery and modals for various viewport sizes.
+      .dark-mode .video-list {
+        background: #2d3748;
+        border-color: #4a5568;
+      }
+
+      .dark-mode .video-item:hover {
+        background: #4a5568;
+      }
+
+      .dark-mode .breadcrumb {
+        background: #1a202c;
+        border-color: #4a5568;
+      }
+
+      .dark-mode .photo-modal {
+        background: rgba(0, 0, 0, 0.95);
+      }
+
+      .dark-mode .modal-content {
+        background: #2d3748;
+        border-color: #4a5568;
+      }
+
+      .dark-mode .modal-close {
+        background: #e53e3e;
+        border-color: #4a5568;
+      }
+
+      .dark-mode #site-footer {
+        background: rgba(45, 55, 72, 0.6);
+        color: #a0aec0;
+      }
+
+      /* Compact sidebar control - combined theme + language toggle */
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 100;
+        background: linear-gradient(45deg, #2b6cb0, #2c5282);
+        border: 4px solid #000;
+        box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0, 0, 0, 0.3);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        transition: all 0.2s ease;
+        image-rendering: pixelated;
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0, 0, 0, 0.4);
+      }
+
+      .theme-toggle:active {
+        transform: scale(0.95);
+      }
+
+      .dark-mode .theme-toggle {
+        background: linear-gradient(45deg, #fbbf24, #f59e0b);
+      }
+
+      /* Language controls - hidden by default, revealed on hover/click */
+      #top-controls {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 100;
+        pointer-events: none;
+      }
+
+      #top-controls > div {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+        pointer-events: auto;
+        opacity: 0;
+        transform: translateX(70px);
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      .theme-toggle:hover ~ #top-controls > div,
+      #top-controls:hover > div,
+      #top-controls.active > div {
+        opacity: 1;
+        transform: translateX(70px);
+      }
+
+      #top-controls button {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 3px solid #000;
+        background: white;
+        color: #000;
+        font-weight: bold;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 3px 3px 0px #000, 6px 6px 0px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #top-controls button:hover {
+        transform: scale(1.05);
+        box-shadow: 3px 3px 0px #000, 6px 6px 0px rgba(0, 0, 0, 0.3);
+      }
+
+      #top-controls button:active {
+        transform: scale(0.95);
+        box-shadow: 1px 1px 0px #000;
+      }
+
+      .dark-mode #top-controls button {
+        background: #2d3748;
+        color: #ffffff;
+        border-color: #4a5568;
+        box-shadow: 3px 3px 0px #4a5568, 6px 6px 0px rgba(74, 85, 104, 0.3);
+      }
+
+      .dark-mode #top-controls button:hover {
+        background: #4a5568;
+      }
+
+      /* Responsive helpers: scale buttons, gallery and modals for various viewport sizes.
            - Default: fluid sizes using clamp() so components remain usable on small->large screens.
            - Large-screen rule: targets roughly 60cm x 30cm physical displays and equivalent high-res viewports. */
+      .pixel-button {
+        padding: clamp(0.5rem, 1.6vw, 0.9rem);
+        font-size: clamp(1rem, 2.2vw, 1.2rem);
+      }
+
+      .pixel-button img {
+        width: clamp(36px, 2.6vw, 48px);
+        height: clamp(36px, 2.6vw, 48px);
+      }
+
+      .pixel-gallery {
+        gap: clamp(0.5rem, 1.2vw, 1rem);
+      }
+
+      /* Target physical dimensions (60cm x 30cm) and equivalent large pixel sizes.
+           Using both cm and px conditions for broader compatibility across devices. */
+      @media (min-width: 60cm) and (min-height: 30cm),
+        (min-width: 2200px) and (min-height: 1100px) {
+        :root {
+          --btn-font-large: 2.4rem;
+          --btn-pad-v: 1.25rem;
+          --btn-pad-h: 2.25rem;
+        }
+
         .pixel-button {
-            padding: clamp(0.5rem, 1.6vw, 0.9rem);
-            font-size: clamp(1rem, 2.2vw, 1.2rem);
+          padding: var(--btn-pad-v) var(--btn-pad-h);
+          font-size: var(--btn-font-large);
+          border-width: 6px;
+          box-shadow: 10px 10px 0px #000, 18px 18px 0px rgba(0, 0, 0, 0.25);
         }
 
         .pixel-button img {
-            width: clamp(36px, 2.6vw, 48px);
-            height: clamp(36px, 2.6vw, 48px);
+          width: 64px;
+          height: 64px;
         }
 
         .pixel-gallery {
-            gap: clamp(0.5rem, 1.2vw, 1rem);
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 1.5rem;
+          max-width: 1800px;
         }
 
-        /* Target physical dimensions (60cm x 30cm) and equivalent large pixel sizes.
-           Using both cm and px conditions for broader compatibility across devices. */
-        @media (min-width: 60cm) and (min-height: 30cm), (min-width: 2200px) and (min-height: 1100px) {
-            :root {
-                --btn-font-large: 2.4rem;
-                --btn-pad-v: 1.25rem;
-                --btn-pad-h: 2.25rem;
-            }
-
-            .pixel-button {
-                padding: var(--btn-pad-v) var(--btn-pad-h);
-                font-size: var(--btn-font-large);
-                border-width: 6px;
-                box-shadow: 10px 10px 0px #000, 18px 18px 0px rgba(0,0,0,0.25);
-            }
-
-            .pixel-button img {
-                width: 64px;
-                height: 64px;
-            }
-
-            .pixel-gallery {
-                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-                gap: 1.5rem;
-                max-width: 1800px;
-            }
-
-            .pixel-photo {
-                min-height: 320px;
-            }
-
-            .modal-content {
-                max-width: 1200px;
-                padding: 3rem;
-            }
-
-            .modal-close {
-                width: 44px;
-                height: 44px;
-                font-size: 22px;
-            }
-
-            .theme-toggle {
-                width: 64px;
-                height: 64px;
-                font-size: 30px;
-            }
+        .pixel-photo {
+          min-height: 320px;
         }
+
+        .modal-content {
+          max-width: 1200px;
+          padding: 3rem;
+        }
+
+        .modal-close {
+          width: 44px;
+          height: 44px;
+          font-size: 22px;
+        }
+
+        .theme-toggle {
+          width: 64px;
+          height: 64px;
+          font-size: 30px;
+        }
+      }
     </style>
-</head>
-<body class="pixel-font bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 pixel-bg">
+  </head>
+  <body
+    class="pixel-font bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 pixel-bg"
+  >
     <!-- Circle Transition Animation -->
     <div id="page-transition" class="page-transition"></div>
     <div id="global-loader" aria-hidden="true">
-        <div class="spinner" aria-hidden="true">
-            <div></div><div></div><div></div>
-            <div></div><div></div><div></div>
-            <div></div><div></div><div></div>
-        </div>
+      <div class="spinner" aria-hidden="true">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
 
     <!-- Compact sidebar: theme + language toggle (expandable -> <-) -->
-    <button id="theme-toggle" class="theme-toggle" onclick="toggleDarkMode()">🌙</button>
+    <button id="theme-toggle" class="theme-toggle" onclick="toggleDarkMode()">
+      🌙
+    </button>
     <div id="top-controls">
-        <div>
-            <button id="lang-id" class="font-bold">ID</button>
-            <button id="lang-en" class="font-bold">EN</button>
-        </div>
+      <div>
+        <button id="lang-id" class="font-bold">ID</button>
+        <button id="lang-en" class="font-bold">EN</button>
+      </div>
     </div>
 
     <!-- Level 1: Home Page -->
     <div id="home-page" class="page active">
-        <div class="min-h-screen flex flex-col items-center justify-center p-4">
-            <!-- Header -->
-            <div class="text-center mb-12">
-                <!-- Two logo images replace the emoji; replace the src with your real logo paths -->
-                <div class="flex items-center justify-center space-x-4 mb-4">
-                    <img src="logo_tb.png" alt="Logo 1" class="w-24 h-24 " >
-                    <img src="logo_rpl.png" alt="Logo 2" class="w-24 h-24 " >
-                </div>
-                <h1 data-i18n="home.title" class="text-4xl md:text-6xl text-black mb-4 drop-shadow-lg uppercase">SELAMAT DATANG</h1>
-                <h2 data-i18n="home.subtitle" class="text-lg md:text-2xl text-gray-800 mb-2">Website Profile rekayasa perangkat lunak</h2>
-                <p data-i18n="home.school" class="text-sm md:text-lg text-gray-700">SMKS TARUNA BANGSA</p>
-                <div class="mt-4 text-xs text-gray-600"></div>
-            </div>
-            
-            <!-- Main Menu Buttons -->
-            <div class="grid gap-8 max-w-2xl w-full">
-                <!-- Kelas 10 Button -->
-                <button onclick="navigateToClass('kelas10')" class="pixel-button pixel-button-blue w-full p-6 text-white text-xl md:text-2xl">
-                    <div class="flex items-center justify-center space-x-4">
-                        <img src="/img/Kelas 10/10.jpg" alt="Logo Kelas 10" loading="lazy" class="w-12 h-12 rounded-full border-2 border-black object-cover" />
-                        <div class="text-left">
-                            <div data-i18n="kelas10.title">KELAS 10</div>
-                            <div data-i18n="kelas10.subtitle" class="text-sm opacity-75"></div>
-                        </div>
-                    </div>
-                </button>
-                <!-- Kelas 11 Button -->
-                <button onclick="navigateToClass('kelas11')" class="pixel-button pixel-button-green w-full p-6 text-white text-xl md:text-2xl">
-                    <div class="flex items-center justify-center space-x-4">
-                        <img src="/img/kelas 11/11.jpg" alt="Logo Kelas 11" loading="lazy" class="w-12 h-12 rounded-full border-2 border-black object-cover" />
-                        <div class="text-left">
-                            <div data-i18n="kelas11.title">KELAS 11</div>
-                            <div data-i18n="kelas11.subtitle" class="text-sm opacity-75"></div>
-                        </div>
-                    </div>
-                </button>
-                <!-- Kelas 12 Button -->
-                <button onclick="navigateToClass('kelas12')" class="pixel-button pixel-button-purple w-full p-6 text-white text-xl md:text-2xl">
-                    <div class="flex items-center justify-center space-x-4">
-                        <img src="/img/kelas 12/12 rpl.jpg" alt="Logo Kelas 12" loading="lazy" class="w-12 h-12 rounded-full border-2 border-black object-cover" />
-                        <div class="text-left">
-                            <div data-i18n="kelas12.title">KELAS 12</div>
-                            <div data-i18n="kelas12.subtitle" class="text-sm opacity-75"></div>
-                        </div>
-                    </div>
-                </button>
-            </div>
-            
-            <!-- Footer Info (moved to end of document) -->
+      <div class="min-h-screen flex flex-col items-center justify-center p-4">
+        <!-- Header -->
+        <div class="text-center mb-12">
+          <!-- Two logo images replace the emoji; replace the src with your real logo paths -->
+          <div class="flex items-center justify-center space-x-4 mb-4">
+            <img src="logo_tb.png" alt="Logo 1" class="w-24 h-24" />
+            <img src="logo_rpl.png" alt="Logo 2" class="w-24 h-24" />
+          </div>
+          <h1
+            data-i18n="home.title"
+            class="text-4xl md:text-6xl text-black mb-4 drop-shadow-lg uppercase"
+          >
+            SELAMAT DATANG
+          </h1>
+          <h2
+            data-i18n="home.subtitle"
+            class="text-lg md:text-2xl text-gray-800 mb-2"
+          >
+            Website Profile rekayasa perangkat lunak
+          </h2>
+          <p data-i18n="home.school" class="text-sm md:text-lg text-gray-700">
+            SMKS TARUNA BANGSA
+          </p>
+          <div class="mt-4 text-xs text-gray-600"></div>
         </div>
+
+        <!-- Main Menu Buttons -->
+        <div class="grid gap-8 max-w-2xl w-full">
+          <!-- Kelas 10 Button -->
+          <button
+            onclick="navigateToClass('kelas10')"
+            class="pixel-button pixel-button-blue w-full p-6 text-white text-xl md:text-2xl"
+          >
+            <div class="flex items-center justify-center space-x-4">
+              <img
+                id="kelas-10-logo-1"
+                src="img/Kelas 10/10.jpg"
+                alt="Logo Kelas 10"
+                loading="lazy"
+                class="w-12 h-12 rounded-full border-2 border-black object-cover"
+              />
+              <div class="text-left">
+                <div data-i18n="kelas10.title">KELAS 10</div>
+                <div
+                  data-i18n="kelas10.subtitle"
+                  class="text-sm opacity-75"
+                ></div>
+              </div>
+            </div>
+          </button>
+          <!-- Kelas 11 Button -->
+          <button
+            onclick="navigateToClass('kelas11')"
+            class="pixel-button pixel-button-green w-full p-6 text-white text-xl md:text-2xl"
+          >
+            <div class="flex items-center justify-center space-x-4">
+              <img
+                id="kelas-11-logo-1"
+                src="/img/kelas 11/11.jpg"
+                alt="Logo Kelas 11"
+                loading="lazy"
+                class="w-12 h-12 rounded-full border-2 border-black object-cover"
+              />
+              <div class="text-left">
+                <div data-i18n="kelas11.title">KELAS 11</div>
+                <div
+                  data-i18n="kelas11.subtitle"
+                  class="text-sm opacity-75"
+                ></div>
+              </div>
+            </div>
+          </button>
+          <!-- Kelas 12 Button -->
+          <button
+            onclick="navigateToClass('kelas12')"
+            class="pixel-button pixel-button-purple w-full p-6 text-white text-xl md:text-2xl"
+          >
+            <div class="flex items-center justify-center space-x-4">
+              <img
+                id="kelas-12-logo-1"
+                src="/img/kelas 12/12 rpl.jpg"
+                alt="Logo Kelas 12"
+                loading="lazy"
+                class="w-12 h-12 rounded-full border-2 border-black object-cover"
+              />
+              <div class="text-left">
+                <div data-i18n="kelas12.title">KELAS 12</div>
+                <div
+                  data-i18n="kelas12.subtitle"
+                  class="text-sm opacity-75"
+                ></div>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <!-- Footer Info (moved to end of document) -->
+      </div>
     </div>
 
     <!-- Level 2: Class Selection Pages -->
     <!-- Kelas 10 Menu -->
     <div id="kelas10-page" class="page">
-        <div class="min-h-screen p-4">
-            <!-- Breadcrumb -->
-                <div class="breadcrumb text-sm">
-                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400" data-i18n="breadcrumb.home">HOME</span> > KELAS 10
-            </div>
-            
-            <div class="flex flex-col items-center justify-center min-h-screen">
-                <div class="text-center mb-12">
-                    <div class="mb-4">
-                        <img src="/img/Kelas 10/10.jpg" alt="Logo Kelas 10" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
-                    </div>
-                    <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 10 RPL</h1>
-                    <p class="text-lg text-gray-800">DASAR PROGRAMMING</p>
-                </div>
-                
-                <div class="grid gap-6 max-w-xl w-full">
-                    <button onclick="navigateToContent('kelas10', 'galeri')" class="pixel-button w-full p-4 text-white text-lg">
-                        <div class="flex items-center justify-center space-x-3">
-                            <span class="text-3xl">📸</span>
-                            <span data-i18n="btn.galeri">GALERI</span>
-                        </div>
-                    </button>
-                    
-                    <button onclick="navigateToContent('kelas10', 'materi')" class="pixel-button pixel-button-blue w-full p-4 text-white text-lg">
-                        <div class="flex items-center justify-center space-x-3">
-                            <span class="text-3xl">📚</span>
-                            <span data-i18n="btn.materi">MATERI</span>
-                        </div>
-                    </button>
-                    
-                    <button onclick="navigateToContent('kelas10', 'video')" class="pixel-button pixel-button-green w-full p-4 text-white text-lg">
-                        <div class="flex items-center justify-center space-x-3">
-                            <span class="text-3xl">🎥</span>
-                            <span data-i18n="btn.video">VIDEO</span>
-                        </div>
-                    </button>
-                </div>
-                
-                <button onclick="navigateToHome()" data-i18n="back.home" class="mt-8 px-6 py-2 bg-gray-600 text-white border-2 border-black hover:bg-gray-700">
-                    ← BACK TO HOME
-                </button>
-            </div>
+      <div class="min-h-screen p-4">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb text-sm">
+          <span
+            onclick="navigateToHome()"
+            class="cursor-pointer hover:text-yellow-400"
+            data-i18n="breadcrumb.home"
+            >HOME</span
+          >
+          > KELAS 10
         </div>
+
+        <div class="flex flex-col items-center justify-center min-h-screen">
+          <div class="text-center mb-12">
+            <div class="mb-4">
+              <img
+                id="kelas-10-logo-2"
+                src="/img/Kelas 10/10.jpg"
+                alt="Logo Kelas 10"
+                class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto"
+              />
+            </div>
+            <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 10 RPL</h1>
+            <p class="text-lg text-gray-800">DASAR PROGRAMMING</p>
+          </div>
+
+          <div class="grid gap-6 max-w-xl w-full">
+            <button
+              onclick="navigateToContent('kelas10', 'galeri')"
+              class="pixel-button w-full p-4 text-white text-lg"
+            >
+              <div class="flex items-center justify-center space-x-3">
+                <span class="text-3xl">📸</span>
+                <span data-i18n="btn.galeri">GALERI</span>
+              </div>
+            </button>
+
+            <button
+              onclick="navigateToContent('kelas10', 'materi')"
+              class="pixel-button pixel-button-blue w-full p-4 text-white text-lg"
+            >
+              <div class="flex items-center justify-center space-x-3">
+                <span class="text-3xl">📚</span>
+                <span data-i18n="btn.materi">MATERI</span>
+              </div>
+            </button>
+
+            <button
+              onclick="navigateToContent('kelas10', 'video')"
+              class="pixel-button pixel-button-green w-full p-4 text-white text-lg"
+            >
+              <div class="flex items-center justify-center space-x-3">
+                <span class="text-3xl">🎥</span>
+                <span data-i18n="btn.video">VIDEO</span>
+              </div>
+            </button>
+          </div>
+
+          <button
+            onclick="navigateToHome()"
+            data-i18n="back.home"
+            class="mt-8 px-6 py-2 bg-gray-600 text-white border-2 border-black hover:bg-gray-700"
+          >
+            ← BACK TO HOME
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Kelas 11 Menu -->
     <div id="kelas11-page" class="page">
-        <div class="min-h-screen p-4">
-            <div class="breadcrumb text-sm">
-                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400" data-i18n="breadcrumb.home">HOME</span> > KELAS 11
-            </div>
-            
-            <div class="flex flex-col items-center justify-center min-h-screen">
-                <div class="text-center2 mb-12">
-                    <div class="mb-4">
-                        <img src="img/kelas 11/11.jpg" alt="Logo Kelas 11" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
-                    </div>
-                    <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 11 RPL</h1>
-                    <p class="text-lg text-gray-800">PENGEMBANGAN APLIKASI</p>
-                </div>
-                
-                <div class="grid gap-6 max-w-xl w-full">
-                    <button onclick="navigateToContent('kelas11', 'galeri')" class="pixel-button w-full p-4 text-white text-lg">
-                        <div class="flex items-center justify-center space-x-3">
-                            <span class="text-3xl">📸</span>
-                            <span data-i18n="btn.galeri">GALERI</span>
-                        </div>
-                    </button>
-                    
-                    <button onclick="navigateToContent('kelas11', 'materi')" class="pixel-button pixel-button-blue w-full p-4 text-white text-lg">
-                        <div class="flex items-center justify-center space-x-3">
-                            <span class="text-3xl">📚</span>
-                            <span data-i18n="btn.materi">MATERI</span>
-                        </div>
-                    </button>
-                    
-                    <button onclick="navigateToContent('kelas11', 'video')" class="pixel-button pixel-button-green w-full p-4 text-white text-lg">
-                        <div class="flex items-center justify-center space-x-3">
-                            <span class="text-3xl">🎥</span>
-                            <span data-i18n="btn.video">VIDEO</span>
-                        </div>
-                    </button>
-                </div>
-                
-                <button onclick="navigateToHome()" data-i18n="back.home" class="mt-8 px-6 py-2 bg-gray-600 text-white border-2 border-black hover:bg-gray-700">
-                    ← BACK TO HOME
-                </button>
-            </div>
+      <div class="min-h-screen p-4">
+        <div class="breadcrumb text-sm">
+          <span
+            onclick="navigateToHome()"
+            class="cursor-pointer hover:text-yellow-400"
+            data-i18n="breadcrumb.home"
+            >HOME</span
+          >
+          > KELAS 11
         </div>
+
+        <div class="flex flex-col items-center justify-center min-h-screen">
+          <div class="text-center2 mb-12">
+            <div class="mb-4">
+              <img
+                id="kelas-11-logo-2"
+                src="img/kelas 11/11.jpg"
+                alt="Logo Kelas 11"
+                class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto"
+              />
+            </div>
+            <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 11 RPL</h1>
+            <p class="text-lg text-gray-800">PENGEMBANGAN APLIKASI</p>
+          </div>
+
+          <div class="grid gap-6 max-w-xl w-full">
+            <button
+              onclick="navigateToContent('kelas11', 'galeri')"
+              class="pixel-button w-full p-4 text-white text-lg"
+            >
+              <div class="flex items-center justify-center space-x-3">
+                <span class="text-3xl">📸</span>
+                <span data-i18n="btn.galeri">GALERI</span>
+              </div>
+            </button>
+
+            <button
+              onclick="navigateToContent('kelas11', 'materi')"
+              class="pixel-button pixel-button-blue w-full p-4 text-white text-lg"
+            >
+              <div class="flex items-center justify-center space-x-3">
+                <span class="text-3xl">📚</span>
+                <span data-i18n="btn.materi">MATERI</span>
+              </div>
+            </button>
+
+            <button
+              onclick="navigateToContent('kelas11', 'video')"
+              class="pixel-button pixel-button-green w-full p-4 text-white text-lg"
+            >
+              <div class="flex items-center justify-center space-x-3">
+                <span class="text-3xl">🎥</span>
+                <span data-i18n="btn.video">VIDEO</span>
+              </div>
+            </button>
+          </div>
+
+          <button
+            onclick="navigateToHome()"
+            data-i18n="back.home"
+            class="mt-8 px-6 py-2 bg-gray-600 text-white border-2 border-black hover:bg-gray-700"
+          >
+            ← BACK TO HOME
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Kelas 12 Menu -->
     <div id="kelas12-page" class="page">
-        <div class="min-h-screen p-4">
-            <div class="breadcrumb text-sm">
-                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400" data-i18n="breadcrumb.home">HOME</span> > KELAS 12
-            </div>
-            
-            <div class="flex flex-col items-center justify-center min-h-screen">
-                <div class="text-center mb-12">
-                    <div class="mb-4">
-                        <img src="/img/kelas 12/12 rpl.jpg" alt="Logo Kelas 12" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
-                    </div>
-                    <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 12 RPL</h1>
-                    <p class="text-lg text-gray-800">REKAYASA PERANGKAT LUNAK</p>
-                </div>
-                
-                <div class="grid gap-6 max-w-xl w-full">
-                    <button onclick="navigateToContent('kelas12', 'galeri')" class="pixel-button w-full p-4 text-white text-lg">
-                        <div class="flex items-center justify-center space-x-3">
-                            <span class="text-3xl">📸</span>
-                            <span data-i18n="btn.galeri">GALERI</span>
-                        </div>
-                    </button>
-                    
-                    <button onclick="navigateToContent('kelas12', 'materi')" class="pixel-button pixel-button-blue w-full p-4 text-white text-lg">
-                        <div class="flex items-center justify-center space-x-3">
-                            <span class="text-3xl">📚</span>
-                            <span data-i18n="btn.materi">MATERI</span>
-                        </div>
-                    </button>
-                    
-                    <button onclick="navigateToContent('kelas12', 'video')" class="pixel-button pixel-button-green w-full p-4 text-white text-lg">
-                        <div class="flex items-center justify-center space-x-3">
-                            <span class="text-3xl">🎥</span>
-                            <span data-i18n="btn.video">VIDEO</span>
-                        </div>
-                    </button>
-                </div>
-                
-                <button onclick="navigateToHome()" data-i18n="back.home" class="mt-8 px-6 py-2 bg-gray-600 text-white border-2 border-black hover:bg-gray-700">
-                    ← BACK TO HOME
-                </button>
-            </div>
+      <div class="min-h-screen p-4">
+        <div class="breadcrumb text-sm">
+          <span
+            onclick="navigateToHome()"
+            class="cursor-pointer hover:text-yellow-400"
+            data-i18n="breadcrumb.home"
+            >HOME</span
+          >
+          > KELAS 12
         </div>
+
+        <div class="flex flex-col items-center justify-center min-h-screen">
+          <div class="text-center mb-12">
+            <div class="mb-4">
+              <img
+                id="kelas-12-logo-2"
+                src="/img/kelas 12/12 rpl.jpg"
+                alt="Logo Kelas 12"
+                class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto"
+              />
+            </div>
+            <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 12 RPL</h1>
+            <p class="text-lg text-gray-800">REKAYASA PERANGKAT LUNAK</p>
+          </div>
+
+          <div class="grid gap-6 max-w-xl w-full">
+            <button
+              onclick="navigateToContent('kelas12', 'galeri')"
+              class="pixel-button w-full p-4 text-white text-lg"
+            >
+              <div class="flex items-center justify-center space-x-3">
+                <span class="text-3xl">📸</span>
+                <span data-i18n="btn.galeri">GALERI</span>
+              </div>
+            </button>
+
+            <button
+              onclick="navigateToContent('kelas12', 'materi')"
+              class="pixel-button pixel-button-blue w-full p-4 text-white text-lg"
+            >
+              <div class="flex items-center justify-center space-x-3">
+                <span class="text-3xl">📚</span>
+                <span data-i18n="btn.materi">MATERI</span>
+              </div>
+            </button>
+
+            <button
+              onclick="navigateToContent('kelas12', 'video')"
+              class="pixel-button pixel-button-green w-full p-4 text-white text-lg"
+            >
+              <div class="flex items-center justify-center space-x-3">
+                <span class="text-3xl">🎥</span>
+                <span data-i18n="btn.video">VIDEO</span>
+              </div>
+            </button>
+          </div>
+
+          <button
+            onclick="navigateToHome()"
+            data-i18n="back.home"
+            class="mt-8 px-6 py-2 bg-gray-600 text-white border-2 border-black hover:bg-gray-700"
+          >
+            ← BACK TO HOME
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Level 3: Content Pages -->
     <!-- Galeri Content -->
     <div id="galeri-content" class="page">
-        <div class="min-h-screen p-4">
-            <div class="breadcrumb text-sm">
-                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400" data-i18n="breadcrumb.home">HOME</span> > 
-                <span id="galeri-breadcrumb-class" onclick="navigateBack()" class="cursor-pointer hover:text-yellow-400">KELAS</span> > 
-                GALERI
-            </div>
-            
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-8">
-                    <div class="text-5xl mb-4">📸</div>
-                    <span>GALLERY</span>
-                    <p id="galeri-description" class="text-lg text-gray-800 mb-4"></p>
-                    <p class="text-sm text-gray-600" data-i18n="galeri.help">Klik foto untuk melihat detail</p>
-                </div>
-                
-                <!-- Video Grid -->
-                <div class="pixel-gallery mb-8" id="galeri-grid">
-                    <!-- Video thumbnails will be populated by JavaScript -->
-                </div>
-                
-                <div class="text-center">
-                    <button onclick="navigateBack()" class="pixel-button px-6 py-3 text-white">
-                        <span data-i18n="back.classMenu">← BACK TO CLASS MENU</span>
-                    </button>
-                </div>
-            </div>
+      <div class="min-h-screen p-4">
+        <div class="breadcrumb text-sm">
+          <span
+            onclick="navigateToHome()"
+            class="cursor-pointer hover:text-yellow-400"
+            data-i18n="breadcrumb.home"
+            >HOME</span
+          >
+          >
+          <span
+            id="galeri-breadcrumb-class"
+            onclick="navigateBack()"
+            class="cursor-pointer hover:text-yellow-400"
+            >KELAS</span
+          >
+          > GALERI
         </div>
+
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-8">
+            <div class="text-5xl mb-4">📸</div>
+            <span>GALLERY</span>
+            <p id="galeri-description" class="text-lg text-gray-800 mb-4"></p>
+            <p class="text-sm text-gray-600" data-i18n="galeri.help">
+              Klik foto untuk melihat detail
+            </p>
+          </div>
+
+          <!-- Video Grid -->
+          <div class="pixel-gallery mb-8" id="galeri-grid">
+            <!-- Video thumbnails will be populated by JavaScript -->
+          </div>
+
+          <div class="text-center">
+            <button
+              onclick="navigateBack()"
+              class="pixel-button px-6 py-3 text-white"
+            >
+              <span data-i18n="back.classMenu">← BACK TO CLASS MENU</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Photo Modal (slideshow) -->
     <div id="photo-modal" class="photo-modal">
-        <div class="modal-content max-w-4xl w-full">
-            <div class="modal-close" onclick="closePhotoModal()">×</div>
+      <div class="modal-content max-w-4xl w-full">
+        <div class="modal-close" onclick="closePhotoModal()">×</div>
 
-            <!-- Image area -->
-            <div id="modal-image-area" class="mb-4 flex items-center justify-center relative">
-                <button id="modal-prev" onclick="prevPhoto()" class="absolute left-0 ml-2 bg-white border-2 border-black px-3 py-2">◀</button>
-                <img id="modal-image" src="" alt="photo" class="max-w-[90vw] max-h-[70vh] border-4 border-black object-contain" />
-                <button id="modal-next" onclick="nextPhoto()" class="absolute right-0 mr-2 bg-white border-2 border-black px-3 py-2">▶</button>
-            </div>
-
-            <h3 id="modal-title" class="text-xl font-bold mb-2 text-center">Photo Title</h3>
-            <p id="modal-description" class="text-gray-600 mb-4 text-center">Photo description</p>
-            <div class="text-center">
-                <button onclick="closePhotoModal()" class="pixel-button px-4 py-2 text-white">
-                    <span data-i18n="btn.close">CLOSE</span>
-                </button>
-            </div>1
+        <!-- Image area -->
+        <div
+          id="modal-image-area"
+          class="mb-4 flex items-center justify-center relative"
+        >
+          <button
+            id="modal-prev"
+            onclick="prevPhoto()"
+            class="absolute left-0 ml-2 bg-white border-2 border-black px-3 py-2"
+          >
+            ◀
+          </button>
+          <img
+            id="modal-image"
+            src=""
+            alt="photo"
+            class="max-w-[90vw] max-h-[70vh] border-4 border-black object-contain"
+          />
+          <button
+            id="modal-next"
+            onclick="nextPhoto()"
+            class="absolute right-0 mr-2 bg-white border-2 border-black px-3 py-2"
+          >
+            ▶
+          </button>
         </div>
+
+        <h3 id="modal-title" class="text-xl font-bold mb-2 text-center">
+          Photo Title
+        </h3>
+        <p id="modal-description" class="text-gray-600 mb-4 text-center">
+          Photo description
+        </p>
+        <div class="text-center">
+          <button
+            onclick="closePhotoModal()"
+            class="pixel-button px-4 py-2 text-white"
+          >
+            <span data-i18n="btn.close">CLOSE</span>
+          </button>
+        </div>
+        1
+      </div>
     </div>
 
     <!-- Video Modal -->
     <div id="video-modal" class="photo-modal">
-        <div class="modal-content" style="max-width: 90vw; max-height: 90vh; padding: 1rem;">
-            <div class="modal-close" onclick="closeVideoModal()">×</div>
-            <div class="pixel-card bg-black p-2 mb-4">
-                <div class="relative" style="padding-bottom: 56.25%; height: 0;">
-                    <video
-                        id="modal-video-player"
-                        src=""
-                        class="absolute top-0 left-0 w-full h-full border-4 border-white"
-                        controls>
-                    </video>
-                </div>
-            </div>
-            <div class="text-center">
-                <h3 id="modal-video-title" class="text-xl font-bold mb-2">Video Title</h3>
-                <p id="modal-video-desc" class="text-gray-600 mb-4">Video description</p>
-                <div id="video-error" style="display:none; margin-bottom:8px; color:#b91c1c;">
-                    <div id="video-error-msg">Error loading video.</div>
-                    <div class="mt-2">
-                        <button id="video-retry" data-i18n="player.retry" class="pixel-button px-2 py-1 text-xs">Retry</button>
-                        <button id="video-close-error" data-i18n="player.close" class="pixel-button px-2 py-1 text-xs ml-2">Close</button>
-                    </div>
-                </div>
-                <button onclick="closeVideoModal()" class="pixel-button px-4 py-2 text-white">
-                    CLOSE
-                </button>
-            </div>
+      <div
+        class="modal-content"
+        style="max-width: 90vw; max-height: 90vh; padding: 1rem"
+      >
+        <div class="modal-close" onclick="closeVideoModal()">×</div>
+        <div class="pixel-card bg-black p-2 mb-4">
+          <div class="relative" style="padding-bottom: 56.25%; height: 0">
+            <video
+              id="modal-video-player"
+              src=""
+              class="absolute top-0 left-0 w-full h-full border-4 border-white"
+              controls
+            ></video>
+          </div>
         </div>
+        <div class="text-center">
+          <h3 id="modal-video-title" class="text-xl font-bold mb-2">
+            Video Title
+          </h3>
+          <p id="modal-video-desc" class="text-gray-600 mb-4">
+            Video description
+          </p>
+          <div
+            id="video-error"
+            style="display: none; margin-bottom: 8px; color: #b91c1c"
+          >
+            <div id="video-error-msg">Error loading video.</div>
+            <div class="mt-2">
+              <button
+                id="video-retry"
+                data-i18n="player.retry"
+                class="pixel-button px-2 py-1 text-xs"
+              >
+                Retry
+              </button>
+              <button
+                id="video-close-error"
+                data-i18n="player.close"
+                class="pixel-button px-2 py-1 text-xs ml-2"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+          <button
+            onclick="closeVideoModal()"
+            class="pixel-button px-4 py-2 text-white"
+          >
+            CLOSE
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Materi Content -->
     <div id="materi-content" class="page">
-        <div class="min-h-screen p-4">
-            <div class="breadcrumb text-sm">
-                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400" data-i18n="breadcrumb.home">HOME</span> > 
-                <span id="materi-breadcrumb-class" onclick="navigateBack()" class="cursor-pointer hover:text-yellow-400">KELAS</span> > 
-                MATERI
-            </div>
-            
-            <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-8">
-                    <div class="text-5xl mb-4">📚</div>
-                    <h1 class="text-2xl md:text-4xl text-black mb-4">KURIKULUM</h1>
-                    <p id="materi-description" class="text-lg text-gray-800"></p>
-                </div>
-                
-                <div id="materi-content-area" class="mb-8">
-                    <!-- Content will be populated by JavaScript -->
-                </div>
-                
-                <div class="text-center">
-                    <button onclick="navigateBack()" class="pixel-button px-6 py-3 text-white">
-                        ← BACK TO CLASS MENU
-                    </button>
-                </div>
-            </div>
+      <div class="min-h-screen p-4">
+        <div class="breadcrumb text-sm">
+          <span
+            onclick="navigateToHome()"
+            class="cursor-pointer hover:text-yellow-400"
+            data-i18n="breadcrumb.home"
+            >HOME</span
+          >
+          >
+          <span
+            id="materi-breadcrumb-class"
+            onclick="navigateBack()"
+            class="cursor-pointer hover:text-yellow-400"
+            >KELAS</span
+          >
+          > MATERI
         </div>
+
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-8">
+            <div class="text-5xl mb-4">📚</div>
+            <h1 class="text-2xl md:text-4xl text-black mb-4">KURIKULUM</h1>
+            <p id="materi-description" class="text-lg text-gray-800"></p>
+          </div>
+
+          <div id="materi-content-area" class="mb-8">
+            <!-- Content will be populated by JavaScript -->
+          </div>
+
+          <div class="text-center">
+            <button
+              onclick="navigateBack()"
+              class="pixel-button px-6 py-3 text-white"
+            >
+              ← BACK TO CLASS MENU
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Video Content -->
     <div id="video-content" class="page">
-        <div class="min-h-screen p-4">
-            <div class="breadcrumb text-sm">
-                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400" data-i18n="breadcrumb.home">HOME</span> > 
-                <span id="video-breadcrumb-class" onclick="navigateBack()" class="cursor-pointer hover:text-yellow-400">KELAS</span> > 
-                VIDEO
-            </div>
-            
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-8">
-                    <div class="text-5xl mb-4">🎥</div>
-                    <h1 class="text-2xl md:text-4xl text-black mb-4">VIDEO PEMBELAJARAN</h1>
-                    <p id="video-description" class="text-lg text-gray-800"></p>
-                </div>
-                
-                <!-- Big Video Player -->
-                <div class="pixel-card bg-black p-4 mb-8">
-                    <div class="relative" style="padding-bottom: 56.25%; height: 0;">
-                        <video
-                            id="main-video-player"
-                            src=""
-                            class="absolute top-0 left-0 w-full h-full border-4 border-white"
-                            controls>
-                        </video>
-                    </div>
-                    <div class="text-center mt-4">
-                        <h3 id="main-video-title" class="text-xl font-bold text-white mb-2">Video Pembelajaran</h3>
-                        <p id="main-video-desc" class="text-gray-300 text-sm" data-i18n="mainvideo.help">Klik play untuk memulai pembelajaran</p>
-                    </div>
-                </div>
-
-                <!-- Video List -->
-                <div class="video-list pixel-card mb-8">
-                    <h3 class="text-lg font-bold mb-4 text-center" data-i18n="video.listTitle">Daftar Video</h3>
-                    <ul id="video-list-ul" class="space-y-2">
-                        <!-- Video items will be populated by JavaScript -->
-                    </ul>
-                </div>
-                
-                <div class="text-center">
-                    <button onclick="navigateBack()" class="pixel-button px-6 py-3 text-white">
-                        ← BACK TO CLASS MENU
-                    </button>
-                </div>
-            </div>
+      <div class="min-h-screen p-4">
+        <div class="breadcrumb text-sm">
+          <span
+            onclick="navigateToHome()"
+            class="cursor-pointer hover:text-yellow-400"
+            data-i18n="breadcrumb.home"
+            >HOME</span
+          >
+          >
+          <span
+            id="video-breadcrumb-class"
+            onclick="navigateBack()"
+            class="cursor-pointer hover:text-yellow-400"
+            >KELAS</span
+          >
+          > VIDEO
         </div>
+
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-8">
+            <div class="text-5xl mb-4">🎥</div>
+            <h1 class="text-2xl md:text-4xl text-black mb-4">
+              VIDEO PEMBELAJARAN
+            </h1>
+            <p id="video-description" class="text-lg text-gray-800"></p>
+          </div>
+
+          <!-- Big Video Player -->
+          <div class="pixel-card bg-black p-4 mb-8">
+            <div class="relative" style="padding-bottom: 56.25%; height: 0">
+              <video
+                id="main-video-player"
+                src=""
+                class="absolute top-0 left-0 w-full h-full border-4 border-white"
+                controls
+              ></video>
+            </div>
+            <div class="text-center mt-4">
+              <h3
+                id="main-video-title"
+                class="text-xl font-bold text-white mb-2"
+              >
+                Video Pembelajaran
+              </h3>
+              <p
+                id="main-video-desc"
+                class="text-gray-300 text-sm"
+                data-i18n="mainvideo.help"
+              >
+                Klik play untuk memulai pembelajaran
+              </p>
+            </div>
+          </div>
+
+          <!-- Video List -->
+          <div class="video-list pixel-card mb-8">
+            <h3
+              class="text-lg font-bold mb-4 text-center"
+              data-i18n="video.listTitle"
+            >
+              Daftar Video
+            </h3>
+            <ul id="video-list-ul" class="space-y-2">
+              <!-- Video items will be populated by JavaScript -->
+            </ul>
+          </div>
+
+          <div class="text-center">
+            <button
+              onclick="navigateBack()"
+              class="pixel-button px-6 py-3 text-white"
+            >
+              ← BACK TO CLASS MENU
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Video idle -->
     <div id="idleOverlay" class="fixed inset-0 z-[999999] hidden">
-  <video 
-    id="idleVideo" 
-    class="w-full h-full object-cover"
-    muted 
-    playsinline
-    loop
-  ></video>
-</div>
-
-    
+      <video
+        id="idleVideo"
+        class="w-full h-full object-cover"
+        muted
+        playsinline
+        loop
+      ></video>
+    </div>
 
     <script>
-    
-    let modalPhotos = [];
-    let modalIndex = 0;
+      const base_url = "http://127.0.0.1:5500/rplv2/";
+      document.getElementById("kelas-10-logo-1").src =
+        base_url + "img/Kelas 10/10.jpg";
+      document.getElementById("kelas-10-logo-2").src =
+        base_url + "img/Kelas 10/10.jpg";
+      document.getElementById("kelas-11-logo-1").src =
+        base_url + "/img/kelas 11/11.jpg";
+      document.getElementById("kelas-11-logo-2").src =
+        base_url + "/img/kelas 11/11.jpg";
+      document.getElementById("kelas-12-logo-1").src =
+        base_url + "/img/kelas 12/12 rpl.jpg";
+      document.getElementById("kelas-12-logo-2").src =
+        base_url + "/img/kelas 12/12 rpl.jpg";
+      let modalPhotos = [];
+      let modalIndex = 0;
 
-        
-        const contentData = {
-            kelas10: {
-                galeri: {
-                    description: "Dokumentasi foto kegiatan dan pembelajaran kelas 10",
-                    photos: [
-                        { image: "/img/Kelas 10/satu.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 10/dua.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 10/tiga.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 10/empat.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 10/lima.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 10/enam.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 10/tuju.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 10/delapan.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 10/sembilan.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 10/sepuluh.jpg", title: "", desc: "" },
-                        
-                        
-                    ]
-                },
-                materi: {
-                    description: "Kurikulum Jaringan Dasar dan Pemrograman Dasar untuk kelas 10",
-                    content: `
+      const contentData = {
+        kelas10: {
+          galeri: {
+            description: "Dokumentasi foto kegiatan dan pembelajaran kelas 10",
+            photos: [
+              {
+                image: base_url + "img/Kelas 10/satu.jpg",
+                title: "",
+                desc: "",
+              },
+              { image: base_url + "img/Kelas 10/dua.jpg", title: "", desc: "" },
+              {
+                image: base_url + "img/Kelas 10/tiga.jpg",
+                title: "",
+                desc: "",
+              },
+              {
+                image: base_url + "img/Kelas 10/empat.jpg",
+                title: "",
+                desc: "",
+              },
+              {
+                image: base_url + "img/Kelas 10/lima.jpg",
+                title: "",
+                desc: "",
+              },
+              {
+                image: base_url + "img/Kelas 10/enam.jpg",
+                title: "",
+                desc: "",
+              },
+              {
+                image: base_url + "img/Kelas 10/tuju.jpg",
+                title: "",
+                desc: "",
+              },
+              {
+                image: base_url + "img/Kelas 10/delapan.jpg",
+                title: "",
+                desc: "",
+              },
+              {
+                image: base_url + "img/Kelas 10/sembilan.jpg",
+                title: "",
+                desc: "",
+              },
+              {
+                image: base_url + "img/Kelas 10/sepuluh.jpg",
+                title: "",
+                desc: "",
+              },
+            ],
+          },
+          materi: {
+            description:
+              "Kurikulum Jaringan Dasar dan Pemrograman Dasar untuk kelas 10",
+            content: `
                         <div class="terminal-text mb-4">
                             <div class="text-green-400 mb-2">sudo@rpl-kelas10:~$ sudo semester1.txt</div>
                             <div class="text-white"> 
@@ -1171,31 +1504,35 @@
                                 4. Membuat Website dengan HTML dan CSS<br>
                             </div>
                         </div>
-                    `
-                },
-                video: {
-                    description: "Video pembelajaran dan Video gallery",
-                    videos: [
-                        { title: "🎬 Kelas Axioo Program", duration: "30 second", type: "kelas", src: "/img/Kelas 10/kelas 10 axiio.mp4" },
-                        
-                    ]
-                }
-            },
-            kelas11: {
-                galeri: {
-                    description: "Dokumentasi foto proyek dan kegiatan kelas 11",
-                    photos: [
-                        { image: "/img/kelas 11/foto-1.jpg", title: "", desc: "" },
-                        { image: "/img/kelas 11/foto-2.jpg", title: "", desc: "" },
-                        { image: "/img/kelas 11/foto-3.jpg", title: "", desc: "" },
-                        { image: "/img/kelas 11/foto-4.jpg", title: "", desc: "" },
-                        { image: "/img/kelas 11/foto-5.jpg", title: "", desc: "" },
-                        { image: "/img/kelas 11/foto-6.jpg", title: "", desc: "" },
-                    ]
-                },
-                materi: {
-                    description: "Kurikulum Pembelajaran kelas 11",
-                    content: `
+                    `,
+          },
+          video: {
+            description: "Video pembelajaran dan Video gallery",
+            videos: [
+              {
+                title: "🎬 Kelas Axioo Program",
+                duration: "30 second",
+                type: "kelas",
+                src: base_url + "/img/Kelas 10/kelas 10 axiio.mp4",
+              },
+            ],
+          },
+        },
+        kelas11: {
+          galeri: {
+            description: "Dokumentasi foto proyek dan kegiatan kelas 11",
+            photos: [
+              { image: base_url + "/img/kelas 11/foto-1.jpg", title: "", desc: "" },
+              { image: base_url + "/img/kelas 11/foto-2.jpg", title: "", desc: "" },
+              { image: base_url + "/img/kelas 11/foto-3.jpg", title: "", desc: "" },
+              { image: base_url + "/img/kelas 11/foto-4.jpg", title: "", desc: "" },
+              { image: base_url + "/img/kelas 11/foto-5.jpg", title: "", desc: "" },
+              { image: base_url + "/img/kelas 11/foto-6.jpg", title: "", desc: "" },
+            ],
+          },
+          materi: {
+            description: "Kurikulum Pembelajaran kelas 11",
+            content: `
                         <div class="terminal-text mb-4">
                             <div class="text-green-400 mb-2">root@rpl-kelas11:~$ cat Peminatan "Web development"</div>
                             <div class="text-white">
@@ -1225,35 +1562,40 @@
                                 3.Object Oriented Programming dalam Greenfoot<br>
                             </div>
                         </div>
-                    `
-                },
-                video: {
-                    description: "Video proyek siswa dan tutorial lanjutan kelas 11",
-                    videos: [
-                        { title: "🚀 Laravel CRUD Tutorial", duration: "45:30", type: "Framework", src: "videos/11/video1.mp4" },
-                    ]
-                }
-            },
-            kelas12: {
-                galeri: {
-                    description: "Dokumentasi foto kegiatan akhir, PKL, dan persiapan kelulusan kelas 12",
-                    photos: [
-                        { image: "/img/Kelas 12/foto-3 (1).jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 12/dua.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 12/tiga.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 12/empat.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 12/lima.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 12/enam.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 12/tujuh.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 12/delapan.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 12/sembilan.jpg", title: "", desc: "" },
-                        { image: "/img/Kelas 12/sepuluh.jpg", title: "", desc: "" },
-                        
-                    ]
-                },
-                materi: {
-                    description: "Kurikulum Pembelajaran kelas 12",
-                    content: `
+                    `,
+          },
+          video: {
+            description: "Video proyek siswa dan tutorial lanjutan kelas 11",
+            videos: [
+              {
+                title: "🚀 Laravel CRUD Tutorial",
+                duration: "45:30",
+                type: "Framework",
+                src: "videos/11/video1.mp4",
+              },
+            ],
+          },
+        },
+        kelas12: {
+          galeri: {
+            description:
+              "Dokumentasi foto kegiatan akhir, PKL, dan persiapan kelulusan kelas 12",
+            photos: [
+              { image: base_url + "/img/Kelas 12/foto-3 (1).jpg", title: "", desc: "" },
+              { image: base_url + "/img/Kelas 12/dua.jpg", title: "", desc: "" },
+              { image: base_url + "/img/Kelas 12/tiga.jpg", title: "", desc: "" },
+              { image: base_url + "/img/Kelas 12/empat.jpg", title: "", desc: "" },
+              { image: base_url + "/img/Kelas 12/lima.jpg", title: "", desc: "" },
+              { image: base_url + "/img/Kelas 12/enam.jpg", title: "", desc: "" },
+              { image: base_url + "/img/Kelas 12/tujuh.jpg", title: "", desc: "" },
+              { image: base_url + "/img/Kelas 12/delapan.jpg", title: "", desc: "" },
+              { image: base_url + "/img/Kelas 12/sembilan.jpg", title: "", desc: "" },
+              { image: base_url + "/img/Kelas 12/sepuluh.jpg", title: "", desc: "" },
+            ],
+          },
+          materi: {
+            description: "Kurikulum Pembelajaran kelas 12",
+            content: `
                         <div class="terminal-text mb-4">
                             <div class="text-green-400 mb-2">root@rpl-kelas12:~$ cat Peminatan "Web development"</div>
                             <div class="text-white">
@@ -1284,226 +1626,231 @@
                                 4. Laporan kegiatan dan proyek PKL<br>
                             </div>
                         </div>
-                    `
-                },
-                video: {
-                    description: "Video testimoni alumni dan panduan karir",
-                    videos: [
-                         { title: "🚀 Laravel CRUD Tutorial", duration: "45:30", type: "Framework", src: "videos/11/video1.mp4" },
-                       
-                    ]
-                }
+                    `,
+          },
+          video: {
+            description: "Video testimoni alumni dan panduan karir",
+            videos: [
+              {
+                title: "🚀 Laravel CRUD Tutorial",
+                duration: "45:30",
+                type: "Framework",
+                src: "videos/11/video1.mp4",
+              },
+            ],
+          },
+        },
+      };
+
+      let currentClass = "";
+      let currentContent = "";
+
+      function createTVEffect() {
+        const transition = document.getElementById("page-transition");
+        transition.style.display = "block";
+        return transition;
+      }
+
+      function navigateWithTransition(fromElement, toElement) {
+        const transition = createTVEffect();
+
+        requestAnimationFrame(() => {
+          document.body.classList.add("transitioning");
+          document.getElementById("global-loader").classList.add("active");
+
+          transition.classList.add("active");
+
+          setTimeout(() => {
+            fromElement.classList.remove("active");
+            hideAllPages();
+            toElement.classList.add("active");
+          }, 400);
+
+          setTimeout(() => {
+            transition.classList.remove("active");
+            transition.style.display = "none";
+            document.getElementById("global-loader").classList.remove("active");
+            document.body.classList.remove("transitioning");
+          }, 820);
+        });
+      }
+
+      function navigateToHome() {
+        if (currentClass) {
+          const fromPage = document.getElementById(currentClass + "-page");
+          const toPage = document.getElementById("home-page");
+          navigateWithTransition(fromPage, toPage);
+          currentClass = "";
+          currentContent = "";
+        }
+      }
+
+      function navigateToClass(className) {
+        const active =
+          document.querySelector(".page.active") ||
+          document.getElementById("home-page");
+        const fromPage = active;
+        const toPage = document.getElementById(className + "-page");
+        navigateWithTransition(fromPage, toPage);
+        currentClass = className;
+      }
+
+      function navigateToContent(className, contentType) {
+        const active =
+          document.querySelector(".page.active") ||
+          document.getElementById(className + "-page");
+        const fromPage = active;
+        const toPage = document.getElementById(contentType + "-content");
+
+        currentClass = className;
+        currentContent = contentType;
+
+        const classNumber = className.replace("kelas", "");
+        document.getElementById(contentType + "-breadcrumb-class").textContent =
+          "KELAS " + classNumber;
+
+        loadContent(className, contentType);
+
+        navigateWithTransition(fromPage, toPage);
+      }
+
+      function navigateBack() {
+        if (currentContent) {
+          const fromPage = document.getElementById(currentContent + "-content");
+          const toPage = document.getElementById(currentClass + "-page");
+          navigateWithTransition(fromPage, toPage);
+          currentContent = "";
+        } else if (currentClass) {
+          const fromPage = document.getElementById(currentClass + "-page");
+          const toPage = document.getElementById("home-page");
+          navigateWithTransition(fromPage, toPage);
+          currentClass = "";
+        }
+      }
+
+      function hideAllPages() {
+        document.querySelectorAll(".page").forEach((page) => {
+          page.classList.remove("active");
+        });
+      }
+
+      const imgObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const img = entry.target;
+            const src = img.dataset && img.dataset.src;
+            if (src) {
+              img.src = src;
             }
-        };
+            imgObserver.unobserve(img);
+          });
+        },
+        { rootMargin: "200px 0px", threshold: 0.01 }
+      );
 
-        
-        let currentClass = '';
-        let currentContent = '';
+      function loadContent(className, contentType) {
+        const data = contentData[className][contentType];
 
-        
-        function createTVEffect() {
-            const transition = document.getElementById('page-transition');
-            transition.style.display = 'block';
-            return transition;
-        }
+        if (contentType === "galeri") {
+          document.getElementById("galeri-description").textContent =
+            data.description;
+          const grid = document.getElementById("galeri-grid");
+          grid.innerHTML = "";
 
-        function navigateWithTransition(fromElement, toElement) {
-            const transition = createTVEffect();
-            
-            requestAnimationFrame(() => {
-                
-                document.body.classList.add('transitioning');
-                document.getElementById('global-loader').classList.add('active');
+          const photosToShow = (data.photos || []).slice(0, 10);
+          photosToShow.forEach((photo, index) => {
+            const photoDiv = document.createElement("div");
+            photoDiv.className = "pixel-photo";
 
-                transition.classList.add('active');
+            const placeholder = document.createElement("div");
+            placeholder.className = "photo-placeholder";
+            placeholder.innerHTML = "📷";
+            photoDiv.appendChild(placeholder);
 
-                
-                setTimeout(() => {
-                    fromElement.classList.remove('active');
-                    hideAllPages();
-                    toElement.classList.add('active');
-                }, 400);
+            const img = document.createElement("img");
+            img.className = "gallery-img";
+            img.loading = "lazy";
+            img.alt = photo.title || "photo";
 
-                
-                setTimeout(() => {
-                    transition.classList.remove('active');
-                    transition.style.display = 'none';
-                    document.getElementById('global-loader').classList.remove('active');
-                    document.body.classList.remove('transitioning');
-                }, 820);
+            img.src = photo.image || ""; // title overlay
+            const title = document.createElement("div");
+            title.className = "photo-title";
+            title.textContent = photo.title || "";
+            photoDiv.appendChild(img);
+            photoDiv.appendChild(title);
+
+            photoDiv.onclick = () => openPhotoModal(index, photosToShow);
+
+            img.addEventListener("load", () => {
+              img.classList.add("loaded");
+              setTimeout(() => {
+                if (placeholder && placeholder.parentNode) placeholder.remove();
+              }, 80);
             });
-        }
 
-        function navigateToHome() {
-            if (currentClass) {
-                const fromPage = document.getElementById(currentClass + '-page');
-                const toPage = document.getElementById('home-page');
-                navigateWithTransition(fromPage, toPage);
-                currentClass = '';
-                currentContent = '';
-            }
-        }
-
-        function navigateToClass(className) {
-            const active = document.querySelector('.page.active') || document.getElementById('home-page');
-            const fromPage = active;
-            const toPage = document.getElementById(className + '-page');
-            navigateWithTransition(fromPage, toPage);
-            currentClass = className;
-        }
-
-        function navigateToContent(className, contentType) {
-            const active = document.querySelector('.page.active') || document.getElementById(className + '-page');
-            const fromPage = active;
-            const toPage = document.getElementById(contentType + '-content');
-
-            currentClass = className;
-            currentContent = contentType;
-            
-            
-            const classNumber = className.replace('kelas', '');
-            document.getElementById(contentType + '-breadcrumb-class').textContent = 'KELAS ' + classNumber;
-            
-            
-            loadContent(className, contentType);
-            
-            
-            navigateWithTransition(fromPage, toPage);
-        }
-
-        function navigateBack() {
-            if (currentContent) {
-                const fromPage = document.getElementById(currentContent + '-content');
-                const toPage = document.getElementById(currentClass + '-page');
-                navigateWithTransition(fromPage, toPage);
-                currentContent = '';
-            } else if (currentClass) {
-                const fromPage = document.getElementById(currentClass + '-page');
-                const toPage = document.getElementById('home-page');
-                navigateWithTransition(fromPage, toPage);
-                currentClass = '';
-            }
-        }
-
-        function hideAllPages() {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-        }
-
-        
-        const imgObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                const img = entry.target;
-                const src = img.dataset && img.dataset.src;
-                if (src) {
-                    img.src = src;
-                }
-                imgObserver.unobserve(img);
-            });
-        }, { rootMargin: '200px 0px', threshold: 0.01 });
-
-        function loadContent(className, contentType) {
-            const data = contentData[className][contentType];
-            
-            if (contentType === 'galeri') {
-                document.getElementById('galeri-description').textContent = data.description;
-                const grid = document.getElementById('galeri-grid');
-                grid.innerHTML = '';
-
-                
-                const photosToShow = (data.photos || []).slice(0, 10);
-                photosToShow.forEach((photo, index) => {
-                    const photoDiv = document.createElement('div');
-                    photoDiv.className = 'pixel-photo';
-
-                    
-                    const placeholder = document.createElement('div');
-                    placeholder.className = 'photo-placeholder';
-                    placeholder.innerHTML = '📷';
-                    photoDiv.appendChild(placeholder);
-
-                    
-                    const img = document.createElement('img');
-                    img.className = 'gallery-img';
-                    img.loading = 'lazy';
-                    img.alt = photo.title || 'photo';
-                    
-                    img.src = photo.image || '';                    // title overlay
-                    const title = document.createElement('div');
-                    title.className = 'photo-title';
-                    title.textContent = photo.title || '';
-                    photoDiv.appendChild(img);
-                    photoDiv.appendChild(title);
-
-                    
-                    photoDiv.onclick = () => openPhotoModal(index, photosToShow);
-
-                    
-                    img.addEventListener('load', () => {
-                        
-                        img.classList.add('loaded');
-                        setTimeout(() => {
-                            if (placeholder && placeholder.parentNode) placeholder.remove();
-                        }, 80);
-                    });
-
-                    img.addEventListener('error', () => {
-                        
-                        img.style.display = 'none';
-                        if (placeholder) {
-                            placeholder.innerHTML = `
+            img.addEventListener("error", () => {
+              img.style.display = "none";
+              if (placeholder) {
+                placeholder.innerHTML = `
                                 <div style="text-align:center; padding:0.5rem;">
                                     <div style="font-size:0.95rem; margin-bottom:8px;">Gambar tidak tersedia</div>
                                     <button class="photo-retry" style="padding:6px 10px; border:3px solid #000; background:#fff; cursor:pointer; font-weight:bold;">Coba Lagi</button>
                                 </div>
                             `;
-                            
-                            const retryBtn = placeholder.querySelector('.photo-retry');
-                            if (retryBtn) {
-                                retryBtn.addEventListener('click', () => {
-                                    
-                                    placeholder.innerHTML = '📷';
-                                    try {
-                                        const cb = (photo.image && photo.image.includes('?')) ? '&cb=' + Date.now() : '?cb=' + Date.now();
-                                        img.src = (photo.image || '') + cb;
-                                        img.style.display = '';
-                                        if (img.decode) img.decode().catch(() => {});
-                                    } catch (e) {
-                                        console.warn('Retry failed for image', photo.image, e);
-                                    }
-                                });
-                            }
-                        }
-                    });
 
-                    grid.appendChild(photoDiv);
-                });
-            } else if (contentType === 'materi') {
-                document.getElementById('materi-description').textContent = data.description;
-                document.getElementById('materi-content-area').innerHTML = data.content;
-            } else if (contentType === 'video') {
-                document.getElementById('video-description').textContent = data.description;
+                const retryBtn = placeholder.querySelector(".photo-retry");
+                if (retryBtn) {
+                  retryBtn.addEventListener("click", () => {
+                    placeholder.innerHTML = "📷";
+                    try {
+                      const cb =
+                        photo.image && photo.image.includes("?")
+                          ? "&cb=" + Date.now()
+                          : "?cb=" + Date.now();
+                      img.src = (photo.image || "") + cb;
+                      img.style.display = "";
+                      if (img.decode) img.decode().catch(() => {});
+                    } catch (e) {
+                      console.warn("Retry failed for image", photo.image, e);
+                    }
+                  });
+                }
+              }
+            });
 
-                
-                const mainVideoPlayer = document.getElementById('main-video-player');
-                const mainVideoTitle = document.getElementById('main-video-title');
-                const mainVideoDesc = document.getElementById('main-video-desc');
+            grid.appendChild(photoDiv);
+          });
+        } else if (contentType === "materi") {
+          document.getElementById("materi-description").textContent =
+            data.description;
+          document.getElementById("materi-content-area").innerHTML =
+            data.content;
+        } else if (contentType === "video") {
+          document.getElementById("video-description").textContent =
+            data.description;
 
-                
-                const firstVideo = data.videos[0];
-                mainVideoPlayer.src = firstVideo.src;
-                mainVideoTitle.textContent = firstVideo.title;
-                mainVideoDesc.textContent = firstVideo.title + ' - ' + firstVideo.duration + ' (' + firstVideo.type + ')';
+          const mainVideoPlayer = document.getElementById("main-video-player");
+          const mainVideoTitle = document.getElementById("main-video-title");
+          const mainVideoDesc = document.getElementById("main-video-desc");
 
-                
-                const videoListUl = document.getElementById('video-list-ul');
-                videoListUl.innerHTML = '';
-                data.videos.forEach((video, index) => {
-                    const li = document.createElement('li');
-                    li.className = 'video-item';
-                    li.innerHTML = `
+          const firstVideo = data.videos[0];
+          mainVideoPlayer.src = firstVideo.src;
+          mainVideoTitle.textContent = firstVideo.title;
+          mainVideoDesc.textContent =
+            firstVideo.title +
+            " - " +
+            firstVideo.duration +
+            " (" +
+            firstVideo.type +
+            ")";
+
+          const videoListUl = document.getElementById("video-list-ul");
+          videoListUl.innerHTML = "";
+          data.videos.forEach((video, index) => {
+            const li = document.createElement("li");
+            li.className = "video-item";
+            li.innerHTML = `
                         <div class="flex justify-between items-center">
                             <div>
                                 <strong>${video.title}</strong><br>
@@ -1512,399 +1859,486 @@
                             <span class="text-lg">▶️</span>
                         </div>
                     `;
-                    li.onclick = () => showVideoModal(video);
-                    videoListUl.appendChild(li);
+            li.onclick = () => showVideoModal(video);
+            videoListUl.appendChild(li);
+          });
+        }
+      }
+
+      function showVideoModal(video) {
+        const videoPlayer = document.getElementById("modal-video-player");
+        const videoTitle = document.getElementById("modal-video-title");
+        const videoDesc = document.getElementById("modal-video-desc");
+
+        videoPlayer.src = video.src;
+
+        const videoError = document.getElementById("video-error");
+        if (videoError) videoError.style.display = "none";
+        videoTitle.textContent = video.title;
+        videoDesc.textContent =
+          video.title + " - " + video.duration + " (" + video.type + ")";
+
+        document.getElementById("video-modal").classList.add("active");
+      }
+
+      function closeVideoModal() {
+        const videoPlayer = document.getElementById("modal-video-player");
+        videoPlayer.src = ""; // Stop video
+        document.getElementById("video-modal").classList.remove("active");
+      }
+
+      (function () {
+        const videoPlayer = document.getElementById("modal-video-player");
+        const videoError = document.getElementById("video-error");
+        const videoErrorMsg = document.getElementById("video-error-msg");
+        const videoRetry = document.getElementById("video-retry");
+        const videoCloseError = document.getElementById("video-close-error");
+
+        if (!videoPlayer) return;
+
+        function showVideoError(msg) {
+          if (videoError) {
+            videoErrorMsg.textContent = msg || "Error loading video.";
+            videoError.style.display = "block";
+          } else {
+            alert(msg || "Error loading video.");
+          }
+          try {
+            videoPlayer.pause();
+          } catch (e) {}
+        }
+
+        videoPlayer.addEventListener("error", (e) => {
+          console.error("Video element error", e);
+          showVideoError("Error loading or playing this video.");
+        });
+
+        if (videoRetry)
+          videoRetry.addEventListener("click", () => {
+            try {
+              videoError.style.display = "none";
+              const src = videoPlayer.src;
+              videoPlayer.src = "";
+
+              setTimeout(() => {
+                videoPlayer.src = src;
+                videoPlayer.load();
+                videoPlayer.play().catch(() => {
+                  showVideoError(
+                    "Retry failed: playback blocked or unsupported format."
+                  );
                 });
+              }, 200);
+            } catch (err) {
+              showVideoError("Retry not possible for this file.");
             }
-        }
+          });
 
-        function showVideoModal(video) {
-            const videoPlayer = document.getElementById('modal-video-player');
-            const videoTitle = document.getElementById('modal-video-title');
-            const videoDesc = document.getElementById('modal-video-desc');
+        if (videoCloseError)
+          videoCloseError.addEventListener("click", () => {
+            if (videoError) videoError.style.display = "none";
+          });
+      })();
 
-            
-            videoPlayer.src = video.src;
-            
-            const videoError = document.getElementById('video-error');
-            if (videoError) videoError.style.display = 'none';
-            videoTitle.textContent = video.title;
-            videoDesc.textContent = video.title + ' - ' + video.duration + ' (' + video.type + ')';
+      function openPhotoModal(index, photos) {
+        modalPhotos = photos || [];
+        modalIndex = index || 0;
+        updateModalPhoto();
+        document.getElementById("photo-modal").classList.add("active");
+      }
 
-            document.getElementById('video-modal').classList.add('active');
-        }
+      function updateModalPhoto() {
+        if (!modalPhotos || modalPhotos.length === 0) return;
+        const photo = modalPhotos[modalIndex];
+        const img = document.getElementById("modal-image");
+        img.src = photo.image || "";
+        img.alt = photo.title || "photo";
+        document.getElementById("modal-title").textContent = photo.title || "";
+        document.getElementById("modal-description").textContent =
+          photo.desc || "";
 
-        function closeVideoModal() {
-            const videoPlayer = document.getElementById('modal-video-player');
-            videoPlayer.src = ''; // Stop video
-            document.getElementById('video-modal').classList.remove('active');
-        }
+        document.getElementById("modal-prev").style.visibility =
+          modalIndex <= 0 ? "hidden" : "visible";
+        document.getElementById("modal-next").style.visibility =
+          modalIndex >= modalPhotos.length - 1 ? "hidden" : "visible";
+      }
 
-        
-        (function() {
-            const videoPlayer = document.getElementById('modal-video-player');
-            const videoError = document.getElementById('video-error');
-            const videoErrorMsg = document.getElementById('video-error-msg');
-            const videoRetry = document.getElementById('video-retry');
-            const videoCloseError = document.getElementById('video-close-error');
+      function nextPhoto() {
+        if (!modalPhotos || modalPhotos.length === 0) return;
+        modalIndex = Math.min(modalIndex + 1, modalPhotos.length - 1);
+        updateModalPhoto();
+      }
 
-            if (!videoPlayer) return;
+      function prevPhoto() {
+        if (!modalPhotos || modalPhotos.length === 0) return;
+        modalIndex = Math.max(modalIndex - 1, 0);
+        updateModalPhoto();
+      }
 
-            function showVideoError(msg) {
-                if (videoError) {
-                    videoErrorMsg.textContent = msg || 'Error loading video.';
-                    videoError.style.display = 'block';
-                } else {
-                    alert(msg || 'Error loading video.');
-                }
-                try { videoPlayer.pause(); } catch (e) {}
-            }
+      function closePhotoModal() {
+        document.getElementById("photo-modal").classList.remove("active");
+      }
 
-            videoPlayer.addEventListener('error', (e) => {
-                console.error('Video element error', e);
-                showVideoError('Error loading or playing this video.');
-            });
+      (function () {
+        const modal = document.getElementById("photo-modal");
+        if (!modal) return;
 
-            if (videoRetry) videoRetry.addEventListener('click', () => {
-                
-                try {
-                    videoError.style.display = 'none';
-                    const src = videoPlayer.src;
-                    videoPlayer.src = '';
-                    
-                    setTimeout(() => {
-                        videoPlayer.src = src;
-                        videoPlayer.load();
-                        videoPlayer.play().catch(() => {
-                           
-                            showVideoError('Retry failed: playback blocked or unsupported format.');
-                        });
-                    }, 200);
-                } catch (err) {
-                    showVideoError('Retry not possible for this file.');
-                }
-            });
+        let startX = 0,
+          startY = 0,
+          endX = 0,
+          endY = 0;
+        const threshold = 50; // minimx for a swipe
+        const verticalLimit = 120; // max vertical movement to consider swipe
 
-            if (videoCloseError) videoCloseError.addEventListener('click', () => {
-                if (videoError) videoError.style.display = 'none';
-            });
-        })();
+        modal.addEventListener(
+          "touchstart",
+          (e) => {
+            const t = e.touches[0];
+            startX = t.clientX;
+            startY = t.clientY;
+            endX = startX;
+            endY = startY;
+          },
+          { passive: true }
+        );
 
-        
-        function openPhotoModal(index, photos) {
-            modalPhotos = photos || [];
-            modalIndex = index || 0;
-            updateModalPhoto();
-            document.getElementById('photo-modal').classList.add('active');
-        }
+        modal.addEventListener(
+          "touchmove",
+          (e) => {
+            const t = e.touches[0];
+            endX = t.clientX;
+            endY = t.clientY;
+          },
+          { passive: true }
+        );
 
-        function updateModalPhoto() {
-            if (!modalPhotos || modalPhotos.length === 0) return;
-            const photo = modalPhotos[modalIndex];
-            const img = document.getElementById('modal-image');
-            img.src = photo.image || '';
-            img.alt = photo.title || 'photo';
-            document.getElementById('modal-title').textContent = photo.title || '';
-            document.getElementById('modal-description').textContent = photo.desc || '';
-
-            
-            document.getElementById('modal-prev').style.visibility = (modalIndex <= 0) ? 'hidden' : 'visible';
-            document.getElementById('modal-next').style.visibility = (modalIndex >= modalPhotos.length - 1) ? 'hidden' : 'visible';
-        }
-
-        function nextPhoto() {
-            if (!modalPhotos || modalPhotos.length === 0) return;
-            modalIndex = Math.min(modalIndex + 1, modalPhotos.length - 1);
-            updateModalPhoto();
-        }
-
-        function prevPhoto() {
-            if (!modalPhotos || modalPhotos.length === 0) return;
-            modalIndex = Math.max(modalIndex - 1, 0);
-            updateModalPhoto();
-        }
-
-        function closePhotoModal() {
-            document.getElementById('photo-modal').classList.remove('active');
-        }
-
-        
-        (function() {
-            const modal = document.getElementById('photo-modal');
-            if (!modal) return;
-
-            let startX = 0, startY = 0, endX = 0, endY = 0;
-            const threshold = 50; // minimx for a swipe
-            const verticalLimit = 120; // max vertical movement to consider swipe
-
-            modal.addEventListener('touchstart', (e) => {
-                const t = e.touches[0];
-                startX = t.clientX; startY = t.clientY; endX = startX; endY = startY;
-            }, { passive: true });
-
-            modal.addEventListener('touchmove', (e) => {
-                const t = e.touches[0];
-                endX = t.clientX; endY = t.clientY;
-            }, { passive: true });
-
-            modal.addEventListener('touchend', () => {
-                const dx = endX - startX;
-                const dy = endY - startY;
-                if (Math.abs(dx) > threshold && Math.abs(dy) < verticalLimit) {
-                    if (dx < 0) nextPhoto(); else prevPhoto();
-                }
-                startX = startY = endX = endY = 0;
-            });
-
-            
-            let pointerDown = false;
-            modal.addEventListener('pointerdown', (e) => {
-                pointerDown = true; startX = e.clientX; startY = e.clientY; endX = startX; endY = startY;
-                try { modal.setPointerCapture(e.pointerId); } catch (err) {}
-            });
-
-            modal.addEventListener('pointermove', (e) => {
-                if (!pointerDown) return; endX = e.clientX; endY = e.clientY;
-            });
-
-            modal.addEventListener('pointerup', (e) => {
-                if (!pointerDown) return; pointerDown = false;
-                try { modal.releasePointerCapture(e.pointerId); } catch (err) {}
-                const dx = endX - startX;
-                const dy = endY - startY;
-                if (Math.abs(dx) > threshold && Math.abs(dy) < verticalLimit) {
-                    if (dx < 0) nextPhoto(); else prevPhoto();
-                }
-                startX = startY = endX = endY = 0;
-            });
-        })();
-
-        // Add keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                // Close modals first if open
-                if (document.getElementById('video-modal').classList.contains('active')) {
-                    closeVideoModal();
-                } else if (document.getElementById('photo-modal').classList.contains('active')) {
-                    closePhotoModal();
-                } else if (currentContent) {
-                    navigateBack();
-                } else if (currentClass) {
-                    navigateToHome();
-                }
-            } else if (e.key === 'ArrowRight') {
-                // next photo in slideshow
-                if (document.getElementById('photo-modal').classList.contains('active')) {
-                    nextPhoto();
-                }
-            } else if (e.key === 'ArrowLeft') {
-                // previous photo in slideshow
-                if (document.getElementById('photo-modal').classList.contains('active')) {
-                    prevPhoto();
-                }
-            }
+        modal.addEventListener("touchend", () => {
+          const dx = endX - startX;
+          const dy = endY - startY;
+          if (Math.abs(dx) > threshold && Math.abs(dy) < verticalLimit) {
+            if (dx < 0) nextPhoto();
+            else prevPhoto();
+          }
+          startX = startY = endX = endY = 0;
         });
 
-        // Close modal when clicking outside
-        document.getElementById('video-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'video-modal') {
-                closeVideoModal();
-            }
+        let pointerDown = false;
+        modal.addEventListener("pointerdown", (e) => {
+          pointerDown = true;
+          startX = e.clientX;
+          startY = e.clientY;
+          endX = startX;
+          endY = startY;
+          try {
+            modal.setPointerCapture(e.pointerId);
+          } catch (err) {}
         });
 
-        document.getElementById('photo-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'photo-modal') {
-                closePhotoModal();
-            }
+        modal.addEventListener("pointermove", (e) => {
+          if (!pointerDown) return;
+          endX = e.clientX;
+          endY = e.clientY;
         });
 
-        // Add sound effects (optional)
-        function playButtonSound() {
-            // You can add Web Audio API sound effects here
-            console.log('Button clicked!');
-        }
+        modal.addEventListener("pointerup", (e) => {
+          if (!pointerDown) return;
+          pointerDown = false;
+          try {
+            modal.releasePointerCapture(e.pointerId);
+          } catch (err) {}
+          const dx = endX - startX;
+          const dy = endY - startY;
+          if (Math.abs(dx) > threshold && Math.abs(dy) < verticalLimit) {
+            if (dx < 0) nextPhoto();
+            else prevPhoto();
+          }
+          startX = startY = endX = endY = 0;
+        });
+      })();
 
-        // Add click sound to all buttons
-        document.addEventListener('click', (e) => {
-            if (e.target.tagName === 'BUTTON') {
-                playButtonSound();
-            }
+      // Add keyboard navigation
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          // Close modals first if open
+          if (
+            document.getElementById("video-modal").classList.contains("active")
+          ) {
+            closeVideoModal();
+          } else if (
+            document.getElementById("photo-modal").classList.contains("active")
+          ) {
+            closePhotoModal();
+          } else if (currentContent) {
+            navigateBack();
+          } else if (currentClass) {
+            navigateToHome();
+          }
+        } else if (e.key === "ArrowRight") {
+          // next photo in slideshow
+          if (
+            document.getElementById("photo-modal").classList.contains("active")
+          ) {
+            nextPhoto();
+          }
+        } else if (e.key === "ArrowLeft") {
+          // previous photo in slideshow
+          if (
+            document.getElementById("photo-modal").classList.contains("active")
+          ) {
+            prevPhoto();
+          }
+        }
+      });
+
+      // Close modal when clicking outside
+      document.getElementById("video-modal").addEventListener("click", (e) => {
+        if (e.target.id === "video-modal") {
+          closeVideoModal();
+        }
+      });
+
+      document.getElementById("photo-modal").addEventListener("click", (e) => {
+        if (e.target.id === "photo-modal") {
+          closePhotoModal();
+        }
+      });
+
+      // Add sound effects (optional)
+      function playButtonSound() {
+        // You can add Web Audio API sound effects here
+        console.log("Button clicked!");
+      }
+
+      // Add click sound to all buttons
+      document.addEventListener("click", (e) => {
+        if (e.target.tagName === "BUTTON") {
+          playButtonSound();
+        }
+      });
+
+      // --- Translation / i18n ---
+      const translations = {
+        id: {
+          "home.title": "Selamat datang",
+          "home.subtitle": "Website Profile rekayasa perangkat lunak",
+          "home.school": "SMKS TARUNA BANGSA",
+          "kelas10.title": "KELAS 10",
+          "kelas10.subtitle": "Jaringan & Dasar Pengembangan web",
+          "kelas11.title": "KELAS 11",
+          "kelas11.subtitle": "Pengembangan website & PKL",
+          "kelas12.title": "KELAS 12",
+          "kelas12.subtitle": "Pengembangan aplikasi & spesialisasi",
+          "btn.galeri": "GALERI",
+          "btn.materi": "MATERI",
+          "btn.video": "VIDEO",
+          "breadcrumb.home": "HOME",
+          "back.home": "← KEMBALI KE HOME",
+          "back.classMenu": "← KEMBALI KE MENU KELAS",
+          "btn.close": "TUTUP",
+          "galeri.help": "Klik foto untuk melihat detail",
+          "video.listTitle": "Daftar Video",
+          "mainvideo.help": "Klik play untuk memulai pembelajaran",
+          "player.play": "Putar",
+          "player.pause": "Jeda",
+          "player.remove": "Hapus",
+          "player.retry": "Coba Lagi",
+          "player.close": "Tutup",
+          "footer.line1": "BY REKAYASA PERANGKAT LUNAK NASA",
+          "footer.line2": "© 2025 TEAM WEB DEEVELOPER UNIT PRODUKSI",
+        },
+        en: {
+          "home.title": "Welcome",
+          "home.subtitle": "Software Engineering profile website",
+          "home.school": "SMKS TARUNA BANGSA",
+          "kelas10.title": "CLASS 10",
+          "kelas10.subtitle": "Networking & Web Development Basics",
+          "kelas11.title": "CLASS 11",
+          "kelas11.subtitle": "Website Development & Internship",
+          "kelas12.title": "CLASS 12",
+          "kelas12.subtitle": "Application Development & Specialization",
+          "btn.galeri": "GALLERY",
+          "btn.materi": "LESSONS",
+          "btn.video": "VIDEOS",
+          "breadcrumb.home": "HOME",
+          "back.home": "← BACK TO HOME",
+          "back.classMenu": "← BACK TO CLASS MENU",
+          "btn.close": "CLOSE",
+          "galeri.help": "Click a photo to view details",
+          "video.listTitle": "Video List",
+          "mainvideo.help": "Click play to start the lesson",
+          "player.play": "Play",
+          "player.pause": "Pause",
+          "player.remove": "Remove",
+          "player.retry": "Retry",
+          "player.close": "Close",
+          "footer.line1": "BY SOFTWARE ENGINEERING NASA",
+          "footer.line2": "© 2025 TEAM WEB DEVELOPMENT PRODUCTIONS",
+        },
+      };
+
+      // Helper: current language and translation function
+      window.currentLang = localStorage.getItem("site-lang") || "id";
+      function t(key) {
+        const lang =
+          window.currentLang || localStorage.getItem("site-lang") || "id";
+        return (translations[lang] && translations[lang][key]) || key;
+      }
+
+      function applyTranslations(lang) {
+        if (!translations[lang]) return;
+        window.currentLang = lang;
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (translations[lang][key]) {
+            el.textContent = translations[lang][key];
+          }
         });
 
-        // --- Translation / i18n ---
-        const translations = {
-            id: {
-                'home.title': 'Selamat datang',
-                'home.subtitle': 'Website Profile rekayasa perangkat lunak',
-                'home.school': 'SMKS TARUNA BANGSA',
-                'kelas10.title': 'KELAS 10',
-                'kelas10.subtitle': 'Jaringan & Dasar Pengembangan web',
-                'kelas11.title': 'KELAS 11',
-                'kelas11.subtitle': 'Pengembangan website & PKL',
-                'kelas12.title': 'KELAS 12',
-                'kelas12.subtitle': 'Pengembangan aplikasi & spesialisasi',
-                'btn.galeri': 'GALERI',
-                'btn.materi': 'MATERI',
-                'btn.video': 'VIDEO',
-                'breadcrumb.home': 'HOME',
-                'back.home': '← KEMBALI KE HOME',
-                'back.classMenu': '← KEMBALI KE MENU KELAS',
-                'btn.close': 'TUTUP',
-                'galeri.help': 'Klik foto untuk melihat detail',
-                'video.listTitle': 'Daftar Video',
-                'mainvideo.help': 'Klik play untuk memulai pembelajaran',
-                'player.play': 'Putar',
-                'player.pause': 'Jeda',
-                'player.remove': 'Hapus',
-                'player.retry': 'Coba Lagi',
-                'player.close': 'Tutup',
-                'footer.line1': 'BY REKAYASA PERANGKAT LUNAK NASA',
-                'footer.line2': '© 2025 TEAM WEB DEEVELOPER UNIT PRODUKSI'
-            },
-            en: {
-                'home.title': 'Welcome',
-                'home.subtitle': 'Software Engineering profile website',
-                'home.school': 'SMKS TARUNA BANGSA',
-                'kelas10.title': 'CLASS 10',
-                'kelas10.subtitle': 'Networking & Web Development Basics',
-                'kelas11.title': 'CLASS 11',
-                'kelas11.subtitle': 'Website Development & Internship',
-                'kelas12.title': 'CLASS 12',
-                'kelas12.subtitle': 'Application Development & Specialization',
-                'btn.galeri': 'GALLERY',
-                'btn.materi': 'LESSONS',
-                'btn.video': 'VIDEOS',
-                'breadcrumb.home': 'HOME',
-                'back.home': '← BACK TO HOME',
-                'back.classMenu': '← BACK TO CLASS MENU',
-                'btn.close': 'CLOSE',
-                'galeri.help': 'Click a photo to view details',
-                'video.listTitle': 'Video List',
-                'mainvideo.help': 'Click play to start the lesson',
-                'player.play': 'Play',
-                'player.pause': 'Pause',
-                'player.remove': 'Remove',
-                'player.retry': 'Retry',
-                'player.close': 'Close',
-                'footer.line1': 'BY SOFTWARE ENGINEERING NASA',
-                'footer.line2': '© 2025 TEAM WEB DEVELOPMENT PRODUCTIONS'
-            }
-        };
-
-        // Helper: current language and translation function
-        window.currentLang = localStorage.getItem('site-lang') || 'id';
-        function t(key) {
-            const lang = window.currentLang || localStorage.getItem('site-lang') || 'id';
-            return (translations[lang] && translations[lang][key]) || key;
+        // footer
+        const f1 = document.querySelector("#site-footer p:first-child");
+        const f2 = document.querySelector("#site-footer p:nth-child(2)");
+        if (f1 && f2) {
+          f1.textContent = translations[lang]["footer.line1"] || f1.textContent;
+          f2.textContent = translations[lang]["footer.line2"] || f2.textContent;
         }
 
-        function applyTranslations(lang) {
-            if (!translations[lang]) return;
-            window.currentLang = lang;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    el.textContent = translations[lang][key];
-                }
-            });
+        localStorage.setItem("site-lang", lang);
+      }
 
-            // footer
-            const f1 = document.querySelector('#site-footer p:first-child');
-            const f2 = document.querySelector('#site-footer p:nth-child(2)');
-            if (f1 && f2) {
-                f1.textContent = translations[lang]['footer.line1'] || f1.textContent;
-                f2.textContent = translations[lang]['footer.line2'] || f2.textContent;
-            }
+      // Initialize language from localStorage or default to Indonesian
+      const savedLang = localStorage.getItem("site-lang") || "id";
+      applyTranslations(savedLang);
 
-            localStorage.setItem('site-lang', lang);
+      const langIdBtn = document.getElementById("lang-id");
+      const langEnBtn = document.getElementById("lang-en");
+      langIdBtn.addEventListener("click", () => {
+        applyTranslations("id");
+        setActiveLang("id");
+      });
+      langEnBtn.addEventListener("click", () => {
+        applyTranslations("en");
+        setActiveLang("en");
+      });
+
+      function setActiveLang(lang) {
+        langIdBtn.classList.toggle("lang-active", lang === "id");
+        langEnBtn.classList.toggle("lang-active", lang === "en");
+      }
+
+      // set visual active language on load
+      setActiveLang(savedLang);
+
+      // Background music removed (player and autoplay logic deleted)
+
+      // Apply saved theme
+      const savedTheme = localStorage.getItem("site-theme") || "light";
+      setTheme(savedTheme);
+
+      // Theme functions
+      function setTheme(theme) {
+        const body = document.body;
+        const toggleButton = document.getElementById("theme-toggle");
+        if (theme === "dark") {
+          body.classList.add("dark-mode");
+          toggleButton.innerHTML = "🌙";
+        } else {
+          body.classList.remove("dark-mode");
+          toggleButton.innerHTML = "☀️";
         }
+        localStorage.setItem("site-theme", theme);
+      }
 
-        // Initialize language from localStorage or default to Indonesian
-        const savedLang = localStorage.getItem('site-lang') || 'id';
-        applyTranslations(savedLang);
+      function toggleDarkMode() {
+        const current = document.body.classList.contains("dark-mode")
+          ? "dark"
+          : "light";
+        setTheme(current === "dark" ? "light" : "dark");
+      }
 
-        const langIdBtn = document.getElementById('lang-id');
-        const langEnBtn = document.getElementById('lang-en');
-        langIdBtn.addEventListener('click', () => { applyTranslations('id'); setActiveLang('id'); });
-        langEnBtn.addEventListener('click', () => { applyTranslations('en'); setActiveLang('en'); });
+      // video idle
+      const IDLE_TIME = 15000; // 15 detik
+      let idleTimer;
+      const overlay = document.getElementById("idleOverlay");
+      const video = document.getElementById("idleVideo");
 
-        function setActiveLang(lang) {
-            langIdBtn.classList.toggle('lang-active', lang === 'id');
-            langEnBtn.classList.toggle('lang-active', lang === 'en');
+      // 👇 Ganti sesuai lokasi videomu
+      video.src = "idle.mp4";
+
+      function resetIdleTimer() {
+        clearTimeout(idleTimer);
+        hideIdleScreen(); // pastikan ilang dulu
+
+        // Set ulang timer
+        idleTimer = setTimeout(showIdleScreen, IDLE_TIME);
+      }
+
+      function showIdleScreen() {
+        overlay.style.display = "block";
+        video.play().catch((err) => console.log("Video idle gagal play:", err));
+      }
+
+      function hideIdleScreen() {
+        overlay.style.display = "none";
+        video.pause();
+        video.currentTime = 0;
+      }
+
+      // Reset timer saat ada interaksi
+      ["mousedown", "mousemove", "touchstart", "keydown", "wheel"].forEach(
+        (evt) => {
+          document.addEventListener(evt, resetIdleTimer, {
+            passive: true,
+            capture: true,
+          });
         }
+      );
 
-        // set visual active language on load
-        setActiveLang(savedLang);
-
-        // Background music removed (player and autoplay logic deleted)
-
-        // Apply saved theme
-        const savedTheme = localStorage.getItem('site-theme') || 'light';
-        setTheme(savedTheme);
-
-
-        // Theme functions
-        function setTheme(theme) {
-            const body = document.body;
-            const toggleButton = document.getElementById('theme-toggle');
-            if (theme === 'dark') {
-                body.classList.add('dark-mode');
-                toggleButton.innerHTML = '🌙';
-            } else {
-                body.classList.remove('dark-mode');
-                toggleButton.innerHTML = '☀️';
-            }
-            localStorage.setItem('site-theme', theme);
-        }
-
-        function toggleDarkMode() {
-            const current = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-            setTheme(current === 'dark' ? 'light' : 'dark');
-        }
-
-        // video idle
-        const IDLE_TIME = 15000; // 15 detik
-  let idleTimer;
-  const overlay = document.getElementById('idleOverlay');
-  const video = document.getElementById('idleVideo');
-  
-  // 👇 Ganti sesuai lokasi videomu
-  video.src = 'idle.mp4';
-
-  function resetIdleTimer() {
-    clearTimeout(idleTimer);
-    hideIdleScreen(); // pastikan ilang dulu
-    
-    // Set ulang timer
-    idleTimer = setTimeout(showIdleScreen, IDLE_TIME);
-  }
-
-  function showIdleScreen() {
-    overlay.style.display = 'block';
-    video.play().catch(err => console.log("Video idle gagal play:", err));
-  }
-
-  function hideIdleScreen() {
-    overlay.style.display = 'none';
-    video.pause();
-    video.currentTime = 0;
-  }
-
-  // Reset timer saat ada interaksi
-  ['mousedown', 'mousemove', 'touchstart', 'keydown', 'wheel'].forEach(evt => {
-    document.addEventListener(evt, resetIdleTimer, { passive: true, capture: true });
-  });
-
-  // Mulai timer pertama kali
-  resetIdleTimer();
+      // Mulai timer pertama kali
+      resetIdleTimer();
     </script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9941f2c7c2b0fd02',t:'MTc2MTM5Nzc2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'9941f2c7c2b0fd02',t:'MTc2MTM5Nzc2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
 
     <!-- Site-wide Footer -->
-    <footer id="site-footer" class="mt-8 text-center text-xs text-gray-600 border-t-2 border-black p-3 bg-white/60">
-        <p class="m-0">BY REKAYASA PERANGKAT LUNAK NASA</p>
-        <p class="mt-2 m-0">© 2025 TEAM WEB DEEVELOPER UNIT PRODUKSI</p>
+    <footer
+      id="site-footer"
+      class="mt-8 text-center text-xs text-gray-600 border-t-2 border-black p-3 bg-white/60"
+    >
+      <p class="m-0">BY REKAYASA PERANGKAT LUNAK NASA</p>
+      <p class="mt-2 m-0">© 2025 TEAM WEB DEEVELOPER UNIT PRODUKSI</p>
     </footer>
-
-    </body>
-    </html>
+  </body>
+</html>
